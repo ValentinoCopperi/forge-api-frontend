@@ -1,10 +1,11 @@
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import { QueryClientProvider } from '@tanstack/react-query'
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 import { Suspense } from 'react'
 import { routes } from './routes'
 import { RouterProvider } from 'react-router-dom'
-
-const queryClient = new QueryClient()
+import { queryClient } from '@/shared/config/query-client/query-client'
+import { Toaster } from '@/shared/ui/sonner'
+import '@/shared/api/axios/axios.interceptor'
 
 
 export const AppProvider = () => {
@@ -17,6 +18,8 @@ export const AppProvider = () => {
                 {import.meta.env.DEV && (
                     <ReactQueryDevtools initialIsOpen={false} />
                 )}
+
+                <Toaster />
             </QueryClientProvider>
         </Suspense>
     )
