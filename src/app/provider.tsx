@@ -5,7 +5,6 @@ import { routes } from './routes'
 import { RouterProvider } from 'react-router-dom'
 import { queryClient } from '@/shared/config/query-client/query-client'
 import { Toaster } from '@/shared/ui/sonner'
-import '@/shared/api/axios/axios.interceptor'
 
 
 export const AppProvider = () => {
