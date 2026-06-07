@@ -50,7 +50,6 @@ export default function HomePage() {
     }
 
     if (isError) {
-        console.log("response data", isAxiosError(error) ? error.response?.data : null);
 
         const message = isAxiosError<AppErrorBody>(error)
             ? error.response?.data?.error

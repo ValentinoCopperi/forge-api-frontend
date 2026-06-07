@@ -8,6 +8,14 @@ type RetryableRequestConfig = InternalAxiosRequestConfig & {
     _retry?: boolean;
 };
 
+/** Rutas donde un 401 es respuesta final (login/register/refresh), no token expirado */
+const AUTH_ROUTES_WITHOUT_REFRESH = ["/auth/signin", "/auth/refresh", "/auth/create"] as const;
+
+function shouldSkipTokenRefresh(config: InternalAxiosRequestConfig) {
+    const url = config.url ?? "";
+    return AUTH_ROUTES_WITHOUT_REFRESH.some((route) => url.includes(route));
+}
+
 axiosInstance.interceptors.request.use(async (config) => {
     const authStore = useAuthStore.getState();
     const accessToken = authStore.accessToken;
@@ -46,7 +54,12 @@ axiosInstance.interceptors.response.use(
         const originalRequest = error.config as RetryableRequestConfig | undefined;
         const status = error.response?.status;
 
-        if (status === 401 && originalRequest && !originalRequest._retry) {
+        if (
+            status === 401 &&
+            originalRequest &&
+            !originalRequest._retry &&
+            !shouldSkipTokenRefresh(originalRequest)
+        ) {
             originalRequest._retry = true;
 
             if (isRefreshing) {
