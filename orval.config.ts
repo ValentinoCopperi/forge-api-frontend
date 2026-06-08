@@ -1,7 +1,7 @@
 import 'dotenv/config'
 import { defineConfig } from 'orval'
 
-const serverUrl = process.env.SERVER_URL ?? 'http://localhost:3001'
+const serverUrl = process.env.VITE_SERVER_URL ?? "http://localhost:3001";
 
 export default defineConfig({
     forgeApi: {
@@ -11,10 +11,9 @@ export default defineConfig({
             client: 'react-query',
             httpClient: 'axios',
             baseUrl: {
-                runtime: 'API_BASE_URL + API_PREFIX',
+                runtime: "API_BASE_URL",
                 imports: [
-                    { name: 'API_BASE_URL', importPath: '../../config/envs/env' },
-                    { name: 'API_PREFIX', importPath: '../../config/envs/env' },
+                    { name: "API_BASE_URL", importPath: "../../config/envs/env" },
                 ],
             },
             override: {

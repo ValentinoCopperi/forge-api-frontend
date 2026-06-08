@@ -6,7 +6,9 @@ import {
     type MainNavItem,
 } from "@/shared/config/routes";
 import { Button } from "@/shared/ui/button";
+import { Avatar, AvatarFallback, AvatarImage } from "@/shared/ui/avatar";
 import { cn } from "@/shared/utils/utils";
+import type { UserResponseDto } from "@/shared/api/generated";
 import {
     Bell,
     LogOut,
@@ -29,6 +31,42 @@ function getInitials(name?: string, email?: string) {
     }
 
     return email?.slice(0, 2).toUpperCase() ?? "U";
+}
+
+function getAvatarSrc(avatarUrl?: UserResponseDto["avatarUrl"]) {
+    const value = avatarUrl as unknown;
+
+    if (typeof value === "string" && value.trim()) {
+        return value;
+    }
+
+    return undefined;
+}
+
+function UserAvatar({
+    name,
+    email,
+    avatarUrl,
+    size = "default",
+    className,
+}: {
+    name?: string;
+    email?: string;
+    avatarUrl?: UserResponseDto["avatarUrl"];
+    size?: "default" | "sm" | "lg";
+    className?: string;
+}) {
+    const initials = getInitials(name, email);
+    const src = getAvatarSrc(avatarUrl);
+
+    return (
+        <Avatar size={size} className={className}>
+            {src ? <AvatarImage src={src} alt={name ?? email ?? "User"} /> : null}
+            <AvatarFallback className="bg-primary/10 text-xs font-semibold text-primary">
+                {initials}
+            </AvatarFallback>
+        </Avatar>
+    );
 }
 
 function NavItem({
@@ -72,7 +110,7 @@ export function AppNavbar() {
     const closeMobileMenu = () => setMobileOpen(false);
 
     return (
-        <header className="sticky top-0 z-50 border-b border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/80">
+        <header className="sticky top-0 z-50 border-b border-border bg-background/95 backdrop-blur supports-backdrop-filter:bg-background/80">
             <div className="mx-auto flex h-14 max-w-7xl items-center gap-4 px-4 sm:px-6 lg:px-8">
                 <Link
                     to={paths.home}
@@ -127,9 +165,11 @@ export function AppNavbar() {
 
                     {isAuthenticated ? (
                         <div className="hidden items-center gap-2 rounded-lg border border-border bg-card px-2 py-1 sm:flex">
-                            <span className="flex size-8 items-center justify-center rounded-full bg-primary/10 text-xs font-semibold text-primary">
-                                {getInitials(user?.name, user?.email)}
-                            </span>
+                            <UserAvatar
+                                name={user?.name}
+                                email={user?.email}
+                                avatarUrl={user?.avatarUrl}
+                            />
                             <div className="hidden min-w-0 pr-1 lg:block">
                                 <p className="truncate text-sm font-medium">
                                     {user?.name ?? "User"}
@@ -195,9 +235,12 @@ export function AppNavbar() {
                         {isAuthenticated ? (
                             <div className="flex items-center justify-between rounded-lg border border-border bg-card p-3">
                                 <div className="flex min-w-0 items-center gap-3">
-                                    <span className="flex size-9 shrink-0 items-center justify-center rounded-full bg-primary/10 text-xs font-semibold text-primary">
-                                        {getInitials(user?.name, user?.email)}
-                                    </span>
+                                    <UserAvatar
+                                        name={user?.name}
+                                        email={user?.email}
+                                        avatarUrl={user?.avatarUrl}
+                                        className="size-9"
+                                    />
                                     <div className="min-w-0">
                                         <p className="truncate text-sm font-medium">
                                             {user?.name ?? "User"}

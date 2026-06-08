@@ -1,5 +1,4 @@
-import type { AppErrorBody, ValidationErrorResponse } from "@/shared/api/generated";
-import { isAxiosError } from "axios";
+import { getApiErrorMessage } from "@/shared/api/utils/api-error.utils";
 
 export const REMEMBER_EMAIL_KEY = "forge.remembered-email";
 
@@ -23,20 +22,5 @@ export function getAuthErrorMessage(
     error: unknown,
     fallback = "Unable to sign in. Please try again."
 ) {
-    if (isAxiosError<AppErrorBody | ValidationErrorResponse>(error)) {
-        const data = error.response?.data;
-
-        if (data && "error" in data && data.error) {
-            return data.error;
-        }
-
-        if (data && "errors" in data && data.errors) {
-            const firstFieldError = Object.values(data.errors)[0]?.[0];
-            if (firstFieldError) {
-                return firstFieldError;
-            }
-        }
-    }
-
-    return fallback;
+    return getApiErrorMessage(error, fallback);
 }

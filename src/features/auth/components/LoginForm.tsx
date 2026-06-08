@@ -1,6 +1,9 @@
 import { FormAlert } from "@/features/auth/components/FormAlert";
 import { FieldInput } from "@/features/auth/components/FieldInput";
+import { FieldSelect } from "@/features/auth/components/FieldSelect";
+import { CUSTOM_EMAIL_VALUE, LOGIN_DEMO_ACCOUNTS } from "@/features/auth/constants/login-demo-accounts";
 import { useLoginForm } from "@/features/auth/hooks/use-login-form";
+import { paths } from "@/shared/config/routes";
 import { Button } from "@/shared/ui/button";
 import { Label } from "@/shared/ui/label";
 import { Spinner } from "@/shared/ui/spinner";
@@ -23,10 +26,13 @@ export function LoginForm({ googleIcon }: LoginFormProps) {
         showForgotPasswordInfo,
         showGoogleSignInInfo,
         isPending,
+        emailSelection,
+        handleEmailSelectionChange,
+        isCustomEmail,
     } = useLoginForm();
 
     return (
-        <div className="w-full max-w-md rounded-2xl border border-white/20 bg-white/88 p-6 shadow-2xl shadow-black/20 backdrop-blur-xl sm:p-8">
+        <div className="w-full max-w-md rounded-2xl border border-white/25 bg-white/90 p-6 shadow-2xl shadow-cyan-950/25 backdrop-blur-xl sm:p-8">
             <div className="mb-6 flex items-start gap-3">
                 <span className="flex size-10 shrink-0 items-center justify-center rounded-xl bg-primary/10 text-primary">
                     <Zap className="size-5" />
@@ -36,7 +42,7 @@ export function LoginForm({ googleIcon }: LoginFormProps) {
                         Welcome to Forge!
                     </h1>
                     <p className="mt-1 text-sm text-muted-foreground">
-                        Sign in with your credentials to continue.
+                        Sign in to access your Forge workspace.
                     </p>
                 </div>
             </div>
@@ -49,17 +55,41 @@ export function LoginForm({ googleIcon }: LoginFormProps) {
 
             <form className="mt-4 space-y-4" onSubmit={onSubmit} noValidate>
                 <div className="space-y-2">
-                    <Label htmlFor="email">Email</Label>
-                    <FieldInput
-                        id="email"
-                        type="email"
-                        autoComplete="email"
-                        placeholder="you@company.com"
-                        icon={Mail}
-                        error={errors.email?.message}
-                        {...register("email", { onChange: clearFormFeedback })}
-                    />
+                    <Label htmlFor="email-selection">Email</Label>
+                    <FieldSelect
+                        id="email-selection"
+                        value={emailSelection}
+                        onChange={(event) =>
+                            handleEmailSelectionChange(
+                                event.target.value as typeof emailSelection
+                            )
+                        }
+                    >
+                        {LOGIN_DEMO_ACCOUNTS.map((account) => (
+                            <option key={account.value} value={account.value}>
+                                {account.email}
+                            </option>
+                        ))}
+                        <option value={CUSTOM_EMAIL_VALUE}>Enter email manually</option>
+                    </FieldSelect>
                 </div>
+
+                {isCustomEmail ? (
+                    <div className="space-y-2">
+                        <Label htmlFor="email">Custom email</Label>
+                        <FieldInput
+                            id="email"
+                            type="email"
+                            autoComplete="email"
+                            placeholder="you@company.com"
+                            icon={Mail}
+                            error={errors.email?.message}
+                            {...register("email", { onChange: clearFormFeedback })}
+                        />
+                    </div>
+                ) : errors.email?.message ? (
+                    <p className="text-xs text-destructive">{errors.email.message}</p>
+                ) : null}
 
                 <div className="space-y-2">
                     <Label htmlFor="password">Password</Label>
@@ -122,6 +152,13 @@ export function LoginForm({ googleIcon }: LoginFormProps) {
                     )}
                 </Button>
             </form>
+
+            <p className="mt-4 text-center text-sm text-muted-foreground">
+                Don&apos;t have an account?{" "}
+                <Link to={paths.register} className="font-medium text-primary hover:underline">
+                    Sign up
+                </Link>
+            </p>
 
             <div className="my-5 flex items-center gap-3">
                 <div className="h-px flex-1 bg-border/80" />

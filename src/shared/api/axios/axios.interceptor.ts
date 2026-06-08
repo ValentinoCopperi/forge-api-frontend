@@ -2,7 +2,7 @@ import { useAuthStore } from "@/features/auth/stores/auth.store";
 import { axiosInstance } from "./axios.instance";
 import { toast } from "sonner";
 import type { AxiosError, InternalAxiosRequestConfig } from "axios";
-import { authRefresh } from "../generated";
+import { authControllerRefresh as authRefresh } from "../generated";
 
 type RetryableRequestConfig = InternalAxiosRequestConfig & {
     _retry?: boolean;

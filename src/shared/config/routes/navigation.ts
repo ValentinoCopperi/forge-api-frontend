@@ -13,7 +13,7 @@ export const mainNavItems: MainNavItem[] = [
     { to: paths.dashboard, label: "Dashboard", icon: LayoutDashboard },
 ];
 
-export const routesWithoutNavbar: AppPath[] = [paths.login];
+export const routesWithoutNavbar: AppPath[] = [paths.login, paths.register];
 
 export function isRouteWithoutNavbar(pathname: string) {
     return routesWithoutNavbar.includes(pathname as AppPath);

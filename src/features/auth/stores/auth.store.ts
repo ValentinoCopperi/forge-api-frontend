@@ -1,5 +1,4 @@
-
-import type { UserWithRole as User } from "@/shared/api/generated";
+import type { UserResponseDto as User } from "@/shared/api/generated";
 import { create } from "zustand";
 
 type AuthState = {

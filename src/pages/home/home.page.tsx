@@ -1,10 +1,8 @@
 import { useHealthCheckApi } from "@/shared/api/api.health";
-import type { AppErrorBody } from "@/shared/api/generated";
+import { getApiErrorMessage } from "@/shared/api/utils/api-error.utils";
 import { Button } from "@/shared/ui/button";
 import { Label } from "@/shared/ui/label";
 import { cn } from "@/shared/utils/utils";
-import { isAxiosError } from "axios";
-
 function StatusBadge({ value }: { value?: string }) {
     const isOk = value === "ok";
 
@@ -35,6 +33,8 @@ export default function HomePage() {
     const { data: healthData, isLoading, isError, error, refetch, isFetching } =
         useHealthCheckApi();
 
+
+
     const health = healthData;
 
     if (isLoading) {
@@ -51,10 +51,10 @@ export default function HomePage() {
 
     if (isError) {
 
-        const message = isAxiosError<AppErrorBody>(error)
-            ? error.response?.data?.error
-            : "Could not connect to the health check endpoint.";
-
+        const message = getApiErrorMessage(
+            error,
+            "Could not connect to the health check endpoint."
+        );
     
         return (
             <div className="space-y-4">
@@ -86,7 +86,7 @@ export default function HomePage() {
                     <HealthField label="Status" value={health?.status} />
                     <HealthField label="Server" value={health?.server} />
                     <HealthField label="Database" value={health?.database} />
-                    <HealthField label="Redis" value={health?.redis} />
+                    {/* <HealthField label="Redis" value={health?.redis} /> */}
                     <div className="flex items-center justify-between gap-4 py-3">
                         <Label className="text-muted-foreground">Timestamp</Label>
                         <span className="font-mono text-sm">{health?.timestamp ?? "—"}</span>

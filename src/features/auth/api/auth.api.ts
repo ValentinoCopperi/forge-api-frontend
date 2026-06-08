@@ -1,27 +1,28 @@
-import { authGetUser, authLogin, useAuthGetUser, useAuthLogin, useAuthRegister } from "@/shared/api/generated";
+import {
+    authControllerGetMe,
+    authControllerLogin,
+    useAuthControllerLogin as useAuthLogin,
+    useAuthControllerGetMe as useAuthMe,
+    useAuthControllerRegister as useAuthRegister,
+} from "@/shared/api/generated";
 import { useAuthStore } from "../stores/auth.store";
-
-
-
 
 export const useAuthLoginApi = (
     options?: Parameters<typeof useAuthLogin>[0],
 ) => {
     const setAuthentication = useAuthStore((s) => s.setAuthentication);
 
-
     return useAuthLogin({
         ...options,
         mutation: {
             onSuccess: async (data, variables, context, meta) => {
-
                 setAuthentication(
                     data.accessToken ?? null,
                     data.refreshToken ?? null,
                     null
                 );
 
-                const { data: user } = await authGetUser();
+                const user = await authControllerGetMe();
 
                 useAuthStore.setState({ user });
 
@@ -31,16 +32,13 @@ export const useAuthLoginApi = (
             },
 
             onError: (error, variables, context, meta) => {
-
                 if (options?.mutation?.onError) {
                     options.mutation.onError(error, variables, context, meta);
                 }
             },
         },
-    })
-
+    });
 };
-
 
 export const useAuthRegisterApi = (
     options?: Parameters<typeof useAuthRegister>[0],
@@ -51,41 +49,37 @@ export const useAuthRegisterApi = (
         ...options,
         mutation: {
             onSuccess: async (data, variables, context, meta) => {
-
                 try {
-
-                    const tokens = await authLogin({
+                    const tokens = await authControllerLogin({
                         email: variables.data.email,
                         password: variables.data.password,
                     });
 
-                    setAuthentication(tokens.accessToken ?? null, tokens.refreshToken ?? null, null);
+                    setAuthentication(
+                        tokens.accessToken ?? null,
+                        tokens.refreshToken ?? null,
+                        null
+                    );
 
-                    const { data: user } = await authGetUser();
+                    const user = await authControllerGetMe();
 
                     useAuthStore.setState({ user });
 
                     options?.mutation?.onSuccess?.(data, variables, context, meta);
-
                 } catch (error) {
-
                     if (options?.mutation?.onError) {
                         options.mutation.onError(error, variables, context, meta);
                     }
-
                 }
-
             },
 
             onError: (error, variables, context, meta) => {
-
                 if (options?.mutation?.onError) {
                     options.mutation.onError(error, variables, context, meta);
                 }
             },
         },
-    })
-}
+    });
+};
 
-
-export const useGetUserApi = useAuthGetUser;
+export const useGetUserApi = useAuthMe;

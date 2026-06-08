@@ -7,12 +7,18 @@ import AppLayout from "../layout";
 
 const HomePage = lazy(() => import("@/pages/home/home.page"));
 const LoginPage = lazy(() => import("@/pages/login/login.page"));
+const RegisterPage = lazy(() => import("@/pages/register/register.page"));
 const DashboardPage = lazy(() => import("@/pages/dashboard/dashboard.page"));
 
 export const routes = createBrowserRouter([
     {
         path: paths.login,
         element: withSuspense(LoginPage),
+        errorElement: <AppRouteError />,
+    },
+    {
+        path: paths.register,
+        element: withSuspense(RegisterPage),
         errorElement: <AppRouteError />,
     },
     {
