@@ -8,6 +8,7 @@ import { AppErrorBoundary } from '@/shared/components/errors/app-error'
 import { AppLoader } from '@/shared/components/loaders/app-loader'
 import { Toaster } from '@/shared/ui/sonner'
 import { ErrorBoundary } from 'react-error-boundary'
+import { AuthLoader } from './auth-loader'
 
 
 export const AppProvider = () => {
@@ -15,14 +16,16 @@ export const AppProvider = () => {
         <Suspense fallback={<AppLoader />}>
             <ErrorBoundary FallbackComponent={AppErrorBoundary}>
                 <QueryClientProvider client={queryClient}>
-                    <RouterProvider router={routes} />
-
-
+                    <AuthLoader renderLoading={() => <AppLoader />}>
+                        <RouterProvider router={routes} />
+                    </AuthLoader>
                     {import.meta.env.DEV && (
                         <ReactQueryDevtools initialIsOpen={false} />
                     )}
 
                     <Toaster />
+
+
                 </QueryClientProvider>
             </ErrorBoundary>
         </Suspense>

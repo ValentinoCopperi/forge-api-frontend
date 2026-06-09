@@ -4,6 +4,7 @@ import withSuspense from "@/shared/utils/with-suspense";
 import { lazy } from "react";
 import { createBrowserRouter } from "react-router-dom";
 import AppLayout from "../layout";
+import { RoutesGuard } from "@/features/auth/guards/routes-guard";
 
 const HomePage = lazy(() => import("@/pages/home/home.page"));
 const LoginPage = lazy(() => import("@/pages/login/login.page"));
@@ -23,7 +24,7 @@ export const routes = createBrowserRouter([
     },
     {
         path: paths.home,
-        element: <AppLayout />,
+        element:<RoutesGuard> <AppLayout /> </RoutesGuard>, 
         errorElement: <AppRouteError />,
         children: [
             {

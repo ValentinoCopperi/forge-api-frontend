@@ -101,8 +101,6 @@ export interface RegisterDto {
 export interface TokenResponseDto {
   /** The access token */
   accessToken: string;
-  /** The refresh token */
-  refreshToken: string;
 }
 
 export interface LoginDto {
@@ -114,11 +112,6 @@ export interface LoginDto {
      * @maxLength 72
      */
   password: string;
-}
-
-export interface RefreshTokenDto {
-  /** Refresh token issued on login or register */
-  refresh_token: string;
 }
 
 export interface AccessTokenResponseDto {
@@ -747,24 +740,22 @@ export const useAuthControllerLogin = <TError = ErrorType<void | ApiErrorRespons
  * @summary Refresh access token
  */
 export const authControllerRefresh = (
-    refreshTokenDto: RefreshTokenDto,
+
  options?: SecondParameter<typeof customInstance>,signal?: AbortSignal
 ) => {
 
 
       return customInstance<AccessTokenResponseDto>(
-      {url: `${API_BASE_URL}/api/v1/auth/refresh`, method: 'POST',
-      headers: {'Content-Type': 'application/json', },
-      data: refreshTokenDto, signal
+      {url: `${API_BASE_URL}/api/v1/auth/refresh`, method: 'POST', signal
     },
       options);
     }
 
 
 
-export const getAuthControllerRefreshMutationOptions = <TError = ErrorType<void | ApiErrorResponseDto>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof authControllerRefresh>>, TError,{data: RefreshTokenDto}, TContext>, request?: SecondParameter<typeof customInstance>}
-): UseMutationOptions<Awaited<ReturnType<typeof authControllerRefresh>>, TError,{data: RefreshTokenDto}, TContext> => {
+export const getAuthControllerRefreshMutationOptions = <TError = ErrorType<ApiErrorResponseDto | void>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof authControllerRefresh>>, TError,void, TContext>, request?: SecondParameter<typeof customInstance>}
+): UseMutationOptions<Awaited<ReturnType<typeof authControllerRefresh>>, TError,void, TContext> => {
 
 const mutationKey = ['authControllerRefresh'];
 const {mutation: mutationOptions, request: requestOptions} = options ?
@@ -776,10 +767,10 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
 
 
 
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof authControllerRefresh>>, {data: RefreshTokenDto}> = (props) => {
-          const {data} = props ?? {};
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof authControllerRefresh>>, void> = () => {
 
-          return  authControllerRefresh(data,requestOptions)
+
+          return  authControllerRefresh(requestOptions)
         }
 
 
@@ -790,21 +781,84 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
   return  { mutationFn, ...mutationOptions }}
 
     export type AuthControllerRefreshMutationResult = NonNullable<Awaited<ReturnType<typeof authControllerRefresh>>>
-    export type AuthControllerRefreshMutationBody = RefreshTokenDto
-    export type AuthControllerRefreshMutationError = ErrorType<void | ApiErrorResponseDto>
+
+    export type AuthControllerRefreshMutationError = ErrorType<ApiErrorResponseDto | void>
 
     /**
  * @summary Refresh access token
  */
-export const useAuthControllerRefresh = <TError = ErrorType<void | ApiErrorResponseDto>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof authControllerRefresh>>, TError,{data: RefreshTokenDto}, TContext>, request?: SecondParameter<typeof customInstance>}
+export const useAuthControllerRefresh = <TError = ErrorType<ApiErrorResponseDto | void>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof authControllerRefresh>>, TError,void, TContext>, request?: SecondParameter<typeof customInstance>}
  , queryClient?: QueryClient): UseMutationResult<
         Awaited<ReturnType<typeof authControllerRefresh>>,
         TError,
-        {data: RefreshTokenDto},
+        void,
         TContext
       > => {
       return useMutation(getAuthControllerRefreshMutationOptions(options), queryClient);
+    }
+
+/**
+ * Revokes the current session and clears the refresh token cookie.
+ * @summary Sign out
+ */
+export const authControllerLogout = (
+
+ options?: SecondParameter<typeof customInstance>,signal?: AbortSignal
+) => {
+
+
+      return customInstance<void>(
+      {url: `${API_BASE_URL}/api/v1/auth/logout`, method: 'POST', signal
+    },
+      options);
+    }
+
+
+
+export const getAuthControllerLogoutMutationOptions = <TError = ErrorType<ApiErrorResponseDto>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof authControllerLogout>>, TError,void, TContext>, request?: SecondParameter<typeof customInstance>}
+): UseMutationOptions<Awaited<ReturnType<typeof authControllerLogout>>, TError,void, TContext> => {
+
+const mutationKey = ['authControllerLogout'];
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
+
+
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof authControllerLogout>>, void> = () => {
+
+
+          return  authControllerLogout(requestOptions)
+        }
+
+
+
+
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type AuthControllerLogoutMutationResult = NonNullable<Awaited<ReturnType<typeof authControllerLogout>>>
+
+    export type AuthControllerLogoutMutationError = ErrorType<ApiErrorResponseDto>
+
+    /**
+ * @summary Sign out
+ */
+export const useAuthControllerLogout = <TError = ErrorType<ApiErrorResponseDto>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof authControllerLogout>>, TError,void, TContext>, request?: SecondParameter<typeof customInstance>}
+ , queryClient?: QueryClient): UseMutationResult<
+        Awaited<ReturnType<typeof authControllerLogout>>,
+        TError,
+        void,
+        TContext
+      > => {
+      return useMutation(getAuthControllerLogoutMutationOptions(options), queryClient);
     }
 
 /**

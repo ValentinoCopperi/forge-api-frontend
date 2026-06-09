@@ -4,6 +4,7 @@ import {
     useAuthControllerLogin as useAuthLogin,
     useAuthControllerGetMe as useAuthMe,
     useAuthControllerRegister as useAuthRegister,
+    useAuthControllerLogout as useAuthLogout,
 } from "@/shared/api/generated";
 import { useAuthStore } from "../stores/auth.store";
 
@@ -16,11 +17,7 @@ export const useAuthLoginApi = (
         ...options,
         mutation: {
             onSuccess: async (data, variables, context, meta) => {
-                setAuthentication(
-                    data.accessToken ?? null,
-                    data.refreshToken ?? null,
-                    null
-                );
+                setAuthentication(data.accessToken ?? null, null);
 
                 const user = await authControllerGetMe();
 
@@ -55,11 +52,7 @@ export const useAuthRegisterApi = (
                         password: variables.data.password,
                     });
 
-                    setAuthentication(
-                        tokens.accessToken ?? null,
-                        tokens.refreshToken ?? null,
-                        null
-                    );
+                    setAuthentication(tokens.accessToken ?? null, null);
 
                     const user = await authControllerGetMe();
 
@@ -77,6 +70,25 @@ export const useAuthRegisterApi = (
                 if (options?.mutation?.onError) {
                     options.mutation.onError(error, variables, context, meta);
                 }
+            },
+        },
+    });
+};
+
+export const useAuthLogoutApi = (
+    options?: Parameters<typeof useAuthLogout>[0],
+) => {
+    return useAuthLogout({
+        ...options,
+        mutation: {
+            onSuccess: (data, variables, context, meta) => {
+                useAuthStore.getState().logout();
+
+                options?.mutation?.onSuccess?.(data, variables, context, meta);
+            },
+
+            onError: (error, variables, context, meta) => {
+                options?.mutation?.onError?.(error, variables, context, meta);
             },
         },
     });

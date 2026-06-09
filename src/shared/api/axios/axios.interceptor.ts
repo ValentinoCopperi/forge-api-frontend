@@ -70,10 +70,9 @@ axiosInstance.interceptors.response.use(
 
             isRefreshing = true;
 
-            const { refreshToken: refresh_token } = useAuthStore.getState();
 
             try {
-                const { accessToken } = await authRefresh({ refresh_token: refresh_token! });
+                const { accessToken } = await authRefresh();
 
                 useAuthStore.setState({ accessToken });
 
@@ -83,7 +82,10 @@ axiosInstance.interceptors.response.use(
             } catch (refreshError) {
                 processQueue(refreshError as AxiosError, null);
 
-                // Logica logout TO-DO
+                useAuthStore.setState({ user: null });
+                useAuthStore.setState({ accessToken: null });
+
+                window.location.href = '/login';
 
                 return Promise.reject(refreshError);
             } finally {

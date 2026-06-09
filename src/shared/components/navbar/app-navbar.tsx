@@ -1,4 +1,5 @@
 import { useAuthStore } from "@/features/auth";
+import { useAuthLogoutApi } from "@/features/auth/api/auth.api";
 import {
     isRouteWithoutNavbar,
     mainNavItems,
@@ -19,7 +20,7 @@ import {
     Zap,
 } from "lucide-react";
 import { useState } from "react";
-import { Link, NavLink, useLocation } from "react-router-dom";
+import { Link, NavLink, useLocation, useNavigate } from "react-router-dom";
 
 function getInitials(name?: string, email?: string) {
     if (name?.trim()) {
@@ -98,10 +99,22 @@ function NavItem({
 
 export function AppNavbar() {
     const location = useLocation();
+    const navigate = useNavigate();
     const [mobileOpen, setMobileOpen] = useState(false);
     const user = useAuthStore((state) => state.user);
-    const logout = useAuthStore((state) => state.logout);
-    const isAuthenticated = useAuthStore((state) => Boolean(state.accessToken));
+    const isAuthenticated = user !== null;
+
+    const logoutMutation = useAuthLogoutApi({
+        mutation: {
+            onSuccess: () => {
+                navigate(paths.login);
+            },
+        },
+    });
+
+    const handleLogout = () => {
+        logoutMutation.mutate();
+    };
 
     if (isRouteWithoutNavbar(location.pathname)) {
         return null;
@@ -182,7 +195,8 @@ export function AppNavbar() {
                                 variant="ghost"
                                 size="icon-sm"
                                 aria-label="Sign out"
-                                onClick={logout}
+                                onClick={handleLogout}
+                                disabled={logoutMutation.isPending}
                             >
                                 <LogOut className="size-4" />
                             </Button>
@@ -253,8 +267,9 @@ export function AppNavbar() {
                                 <Button
                                     variant="outline"
                                     size="sm"
+                                    disabled={logoutMutation.isPending}
                                     onClick={() => {
-                                        logout();
+                                        handleLogout();
                                         closeMobileMenu();
                                     }}
                                 >
