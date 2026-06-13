@@ -2,7 +2,7 @@ import { Zap } from "lucide-react";
 
 const BACKGROUND_IMAGE = "/met-background.jpg";
 
-export function LoginBackground() {
+export function AuthPageBackground() {
     return (
         <>
             <div className="absolute inset-0 bg-[#001018]" aria-hidden />

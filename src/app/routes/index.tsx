@@ -4,7 +4,8 @@ import withSuspense from "@/shared/utils/with-suspense";
 import { lazy } from "react";
 import { createBrowserRouter } from "react-router-dom";
 import AppLayout from "../layout";
-import { RoutesGuard } from "@/features/auth/guards/routes-guard";
+import { RoutesGuard } from "@/features/auth/guards/private.guard";
+import { PublicOnlyGuard } from "@/features/auth/guards/public-only.guard";
 
 const HomePage = lazy(() => import("@/pages/home/home.page"));
 const LoginPage = lazy(() => import("@/pages/login/login.page"));
@@ -14,12 +15,12 @@ const DashboardPage = lazy(() => import("@/pages/dashboard/dashboard.page"));
 export const routes = createBrowserRouter([
     {
         path: paths.login,
-        element: withSuspense(LoginPage),
+        element: <PublicOnlyGuard> {withSuspense(LoginPage)} </PublicOnlyGuard>,
         errorElement: <AppRouteError />,
     },
     {
         path: paths.register,
-        element: withSuspense(RegisterPage),
+        element: <PublicOnlyGuard> {withSuspense(RegisterPage)} </PublicOnlyGuard>,
         errorElement: <AppRouteError />,
     },
     {
