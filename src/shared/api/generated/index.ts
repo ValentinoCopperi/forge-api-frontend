@@ -150,7 +150,7 @@ export interface UserResponseDto {
      */
   avatarUrl: UserResponseDtoAvatarUrl;
   /** The user roles */
-  roles: UserResponseDtoRoles;
+  roles: UserResponseDtoRoles[];
 }
 
 export interface CreateOrganizationDto {
@@ -188,6 +188,16 @@ export interface OrganizationCreateResponseDto {
   createdAt: string;
   /** The updated at date of the organization */
   updatedAt: string;
+  /**
+     * The logo url of the organization
+     * @nullable
+     */
+  logoUrl: string | null;
+  /**
+     * The banner url of the organization
+     * @nullable
+     */
+  bannerUrl: string | null;
   /** The user who created the organization */
   User_Organization_createdByUserIdToUser: OrganizationUserResponseDto;
 }
@@ -213,10 +223,25 @@ export interface OrganizationsGetAllResponseDto {
   createdAt: string;
   /** The updated at date of the organization */
   updatedAt: string;
+  /**
+     * The logo url of the organization
+     * @nullable
+     */
+  logoUrl: string | null;
+  /**
+     * The banner url of the organization
+     * @nullable
+     */
+  bannerUrl: string | null;
   /** The user who created the organization */
   User_Organization_createdByUserIdToUser: OrganizationUserResponseDto;
   /** Related entity counts */
   _count: OrganizationCountResponseDto;
+}
+
+export interface OrganizationsGetAllListResponseDto {
+  data: OrganizationsGetAllResponseDto[];
+  timestamp: string;
 }
 
 /**
@@ -346,6 +371,16 @@ export interface OrganizationFindOneResponseDto {
   createdAt: string;
   /** The updated at date of the organization */
   updatedAt: string;
+  /**
+     * The logo url of the organization
+     * @nullable
+     */
+  logoUrl: string | null;
+  /**
+     * The banner url of the organization
+     * @nullable
+     */
+  bannerUrl: string | null;
   /** The user who created the organization */
   User_Organization_createdByUserIdToUser: OrganizationUserResponseDto;
   /** Projects in the organization */
@@ -354,18 +389,33 @@ export interface OrganizationFindOneResponseDto {
   OrganizationUser: OrganizationMemberResponseDto[];
 }
 
-export interface UpdateOrganizationDto {
+export interface OrganizationOfUserDto {
+  /** The id of the organization */
+  id: number;
+  /** The name of the organization */
+  name: string;
   /**
-     * The name of the organization
-     * @minLength 3
-     * @maxLength 255
+     * The logo url of the organization
+     * @nullable
      */
-  name?: string;
+  logoUrl: string | null;
+}
+
+export interface OrganizationOfUserResponseDto {
+  data: OrganizationOfUserDto[];
+  timestamp: string;
 }
 
 export interface CreateProjectDto { [key: string]: unknown }
 
 export interface UpdateProjectDto { [key: string]: unknown }
+
+export type OrganizationsControllerUpdateBody = {
+  name?: string;
+  description?: string;
+  logoFile?: Blob;
+  bannerFile?: Blob;
+};
 
 export type UsersControllerUploadFileBody = {
   file?: Blob;
@@ -1028,7 +1078,7 @@ export const organizationsControllerFindAll = (
 ) => {
 
 
-      return customInstance<OrganizationsGetAllResponseDto[]>(
+      return customInstance<OrganizationsGetAllListResponseDto>(
       {url: `${API_BASE_URL}/api/v1/organizations`, method: 'GET', signal
     },
       options);
@@ -1402,15 +1452,28 @@ export function useOrganizationsControllerFindOne<TData = Awaited<ReturnType<typ
  */
 export const organizationsControllerUpdate = (
     id: number,
-    updateOrganizationDto: UpdateOrganizationDto,
+    organizationsControllerUpdateBody: OrganizationsControllerUpdateBody,
  options?: SecondParameter<typeof customInstance>,signal?: AbortSignal
 ) => {
 
+      const formData = new FormData();
+if(organizationsControllerUpdateBody.name !== undefined) {
+ formData.append(`name`, organizationsControllerUpdateBody.name);
+ }
+if(organizationsControllerUpdateBody.description !== undefined) {
+ formData.append(`description`, organizationsControllerUpdateBody.description);
+ }
+if(organizationsControllerUpdateBody.logoFile !== undefined) {
+ formData.append(`logoFile`, organizationsControllerUpdateBody.logoFile);
+ }
+if(organizationsControllerUpdateBody.bannerFile !== undefined) {
+ formData.append(`bannerFile`, organizationsControllerUpdateBody.bannerFile);
+ }
 
       return customInstance<OrganizationCreateResponseDto>(
       {url: `${API_BASE_URL}/api/v1/organizations/${id}`, method: 'PATCH',
-      headers: {'Content-Type': 'application/json', },
-      data: updateOrganizationDto, signal
+      headers: {'Content-Type': 'multipart/form-data', },
+       data: formData, signal
     },
       options);
     }
@@ -1418,8 +1481,8 @@ export const organizationsControllerUpdate = (
 
 
 export const getOrganizationsControllerUpdateMutationOptions = <TError = ErrorType<ApiErrorResponseDto>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof organizationsControllerUpdate>>, TError,{id: number;data: UpdateOrganizationDto}, TContext>, request?: SecondParameter<typeof customInstance>}
-): UseMutationOptions<Awaited<ReturnType<typeof organizationsControllerUpdate>>, TError,{id: number;data: UpdateOrganizationDto}, TContext> => {
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof organizationsControllerUpdate>>, TError,{id: number;data: OrganizationsControllerUpdateBody}, TContext>, request?: SecondParameter<typeof customInstance>}
+): UseMutationOptions<Awaited<ReturnType<typeof organizationsControllerUpdate>>, TError,{id: number;data: OrganizationsControllerUpdateBody}, TContext> => {
 
 const mutationKey = ['organizationsControllerUpdate'];
 const {mutation: mutationOptions, request: requestOptions} = options ?
@@ -1431,7 +1494,7 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
 
 
 
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof organizationsControllerUpdate>>, {id: number;data: UpdateOrganizationDto}> = (props) => {
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof organizationsControllerUpdate>>, {id: number;data: OrganizationsControllerUpdateBody}> = (props) => {
           const {id,data} = props ?? {};
 
           return  organizationsControllerUpdate(id,data,requestOptions)
@@ -1445,18 +1508,18 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
   return  { mutationFn, ...mutationOptions }}
 
     export type OrganizationsControllerUpdateMutationResult = NonNullable<Awaited<ReturnType<typeof organizationsControllerUpdate>>>
-    export type OrganizationsControllerUpdateMutationBody = UpdateOrganizationDto
+    export type OrganizationsControllerUpdateMutationBody = OrganizationsControllerUpdateBody
     export type OrganizationsControllerUpdateMutationError = ErrorType<ApiErrorResponseDto>
 
     /**
  * @summary Update an organization
  */
 export const useOrganizationsControllerUpdate = <TError = ErrorType<ApiErrorResponseDto>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof organizationsControllerUpdate>>, TError,{id: number;data: UpdateOrganizationDto}, TContext>, request?: SecondParameter<typeof customInstance>}
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof organizationsControllerUpdate>>, TError,{id: number;data: OrganizationsControllerUpdateBody}, TContext>, request?: SecondParameter<typeof customInstance>}
  , queryClient?: QueryClient): UseMutationResult<
         Awaited<ReturnType<typeof organizationsControllerUpdate>>,
         TError,
-        {id: number;data: UpdateOrganizationDto},
+        {id: number;data: OrganizationsControllerUpdateBody},
         TContext
       > => {
       return useMutation(getOrganizationsControllerUpdateMutationOptions(options), queryClient);
@@ -1523,6 +1586,99 @@ export const useOrganizationsControllerRemove = <TError = ErrorType<ApiErrorResp
       > => {
       return useMutation(getOrganizationsControllerRemoveMutationOptions(options), queryClient);
     }
+
+/**
+ * @summary Get all organizations of a user
+ */
+export const organizationsControllerFindAllByUserId = (
+
+ options?: SecondParameter<typeof customInstance>,signal?: AbortSignal
+) => {
+
+
+      return customInstance<OrganizationOfUserResponseDto>(
+      {url: `${API_BASE_URL}/api/v1/organizations/user`, method: 'GET', signal
+    },
+      options);
+    }
+
+
+
+
+export const getOrganizationsControllerFindAllByUserIdQueryKey = () => {
+    return [
+    `${API_BASE_URL}/api/v1/organizations/user`
+    ] as const;
+    }
+
+
+export const getOrganizationsControllerFindAllByUserIdQueryOptions = <TData = Awaited<ReturnType<typeof organizationsControllerFindAllByUserId>>, TError = ErrorType<ApiErrorResponseDto>>( options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof organizationsControllerFindAllByUserId>>, TError, TData>>, request?: SecondParameter<typeof customInstance>}
+) => {
+
+const {query: queryOptions, request: requestOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getOrganizationsControllerFindAllByUserIdQueryKey();
+
+
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof organizationsControllerFindAllByUserId>>> = ({ signal }) => organizationsControllerFindAllByUserId(requestOptions, signal);
+
+
+
+
+
+   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof organizationsControllerFindAllByUserId>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+}
+
+export type OrganizationsControllerFindAllByUserIdQueryResult = NonNullable<Awaited<ReturnType<typeof organizationsControllerFindAllByUserId>>>
+export type OrganizationsControllerFindAllByUserIdQueryError = ErrorType<ApiErrorResponseDto>
+
+
+export function useOrganizationsControllerFindAllByUserId<TData = Awaited<ReturnType<typeof organizationsControllerFindAllByUserId>>, TError = ErrorType<ApiErrorResponseDto>>(
+  options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof organizationsControllerFindAllByUserId>>, TError, TData>> & Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof organizationsControllerFindAllByUserId>>,
+          TError,
+          Awaited<ReturnType<typeof organizationsControllerFindAllByUserId>>
+        > , 'initialData'
+      >, request?: SecondParameter<typeof customInstance>}
+ , queryClient?: QueryClient
+  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useOrganizationsControllerFindAllByUserId<TData = Awaited<ReturnType<typeof organizationsControllerFindAllByUserId>>, TError = ErrorType<ApiErrorResponseDto>>(
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof organizationsControllerFindAllByUserId>>, TError, TData>> & Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof organizationsControllerFindAllByUserId>>,
+          TError,
+          Awaited<ReturnType<typeof organizationsControllerFindAllByUserId>>
+        > , 'initialData'
+      >, request?: SecondParameter<typeof customInstance>}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useOrganizationsControllerFindAllByUserId<TData = Awaited<ReturnType<typeof organizationsControllerFindAllByUserId>>, TError = ErrorType<ApiErrorResponseDto>>(
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof organizationsControllerFindAllByUserId>>, TError, TData>>, request?: SecondParameter<typeof customInstance>}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+/**
+ * @summary Get all organizations of a user
+ */
+
+export function useOrganizationsControllerFindAllByUserId<TData = Awaited<ReturnType<typeof organizationsControllerFindAllByUserId>>, TError = ErrorType<ApiErrorResponseDto>>(
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof organizationsControllerFindAllByUserId>>, TError, TData>>, request?: SecondParameter<typeof customInstance>}
+ , queryClient?: QueryClient
+ ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+
+  const queryOptions = getOrganizationsControllerFindAllByUserIdQueryOptions(options)
+
+  const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+
+  return { ...query, queryKey: queryOptions.queryKey };
+}
+
+
+
+
+
+
 
 /**
  * Uploads an avatar for the current user

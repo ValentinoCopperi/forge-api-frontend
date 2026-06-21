@@ -3,17 +3,31 @@ import { axiosInstance } from "./axios.instance";
 import { toast } from "sonner";
 import type { AxiosError, InternalAxiosRequestConfig } from "axios";
 import { authControllerRefresh as authRefresh } from "../generated";
+import { isPublicAuthPath, paths } from "@/shared/config/routes";
 
 type RetryableRequestConfig = InternalAxiosRequestConfig & {
     _retry?: boolean;
 };
 
-/** Rutas donde un 401 es respuesta final (login/register/refresh), no token expirado */
-const AUTH_ROUTES_WITHOUT_REFRESH = ["/auth/signin", "/auth/refresh", "/auth/create"] as const;
+/** Rutas donde un 401 es respuesta final, no token expirado */
+const AUTH_ROUTES_WITHOUT_REFRESH = [
+    "/auth/login",
+    "/auth/register",
+    "/auth/refresh",
+    "/auth/logout",
+] as const;
 
 function shouldSkipTokenRefresh(config: InternalAxiosRequestConfig) {
     const url = config.url ?? "";
     return AUTH_ROUTES_WITHOUT_REFRESH.some((route) => url.includes(route));
+}
+
+function shouldAttemptTokenRefresh(config: InternalAxiosRequestConfig | undefined) {
+    if (!config || shouldSkipTokenRefresh(config)) {
+        return false;
+    }
+
+    return !isPublicAuthPath(window.location.pathname);
 }
 
 axiosInstance.interceptors.request.use(async (config) => {
@@ -58,7 +72,7 @@ axiosInstance.interceptors.response.use(
             status === 401 &&
             originalRequest &&
             !originalRequest._retry &&
-            !shouldSkipTokenRefresh(originalRequest)
+            shouldAttemptTokenRefresh(originalRequest)
         ) {
             originalRequest._retry = true;
 
@@ -85,7 +99,9 @@ axiosInstance.interceptors.response.use(
                 useAuthStore.setState({ user: null });
                 useAuthStore.setState({ accessToken: null });
 
-                window.location.href = '/login';
+                if (!isPublicAuthPath(window.location.pathname)) {
+                    window.location.replace(paths.login);
+                }
 
                 return Promise.reject(refreshError);
             } finally {

@@ -6,7 +6,16 @@ import {
     useAuthControllerRegister as useAuthRegister,
     useAuthControllerLogout as useAuthLogout,
 } from "@/shared/api/generated";
+import { paths } from "@/shared/config/routes";
+import { queryClient } from "@/shared/config/query-client/query-client";
 import { useAuthStore } from "../stores/auth.store";
+
+
+async function resetClientState() {
+    await queryClient.cancelQueries();
+    queryClient.clear();
+    localStorage.clear();
+}
 
 export const useAuthLoginApi = (
     options?: Parameters<typeof useAuthLogin>[0],
@@ -17,6 +26,8 @@ export const useAuthLoginApi = (
         ...options,
         mutation: {
             onSuccess: async (data, variables, context, meta) => {
+                await resetClientState();
+
                 setAuthentication(data.accessToken ?? null, null);
 
                 const user = await authControllerGetMe();
@@ -47,6 +58,8 @@ export const useAuthRegisterApi = (
         mutation: {
             onSuccess: async (data, variables, context, meta) => {
                 try {
+                    await resetClientState();
+
                     const tokens = await authControllerLogin({
                         email: variables.data.email,
                         password: variables.data.password,
@@ -81,8 +94,12 @@ export const useAuthLogoutApi = (
     return useAuthLogout({
         ...options,
         mutation: {
-            onSuccess: (data, variables, context, meta) => {
+            onSuccess: async (data, variables, context, meta) => {
                 useAuthStore.getState().logout();
+                localStorage.clear();
+                await resetClientState();
+
+                window.location.replace(paths.login);
 
                 options?.mutation?.onSuccess?.(data, variables, context, meta);
             },

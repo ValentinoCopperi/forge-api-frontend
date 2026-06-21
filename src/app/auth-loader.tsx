@@ -1,7 +1,6 @@
 import { useGetUserApi } from "@/features/auth/api/auth.api";
 import { useAuthStore } from "@/features/auth/stores/auth.store";
-import { useEffect } from "react";
-
+import { isPublicAuthPath } from "@/shared/config/routes";
 
 interface AuthLoaderProps {
     children: React.ReactNode;
@@ -9,18 +8,26 @@ interface AuthLoaderProps {
 }
 
 export function AuthLoader({ children, renderLoading }: AuthLoaderProps) {
+    const shouldRestoreSession = !isPublicAuthPath(window.location.pathname);
 
-    const { data, isLoading } = useGetUserApi()
+    const { data, isLoading } = useGetUserApi({
+        query: {
+            enabled: shouldRestoreSession,
+            retry: false,
+        },
+    });
 
-    const setAuthentication = useAuthStore((s) => s.setAuthentication);
+    if (shouldRestoreSession && isLoading) {
+        return renderLoading();
+    }
 
-    useEffect(() => {
-        if (data) {
-            setAuthentication(null , data);
+    if (data) {
+        const { user, setAuthentication } = useAuthStore.getState();
+
+        if (user?.id !== data.id) {
+            setAuthentication(null, data);
         }
-    }, [data]);
+    }
 
-    if (isLoading) return renderLoading();
-    
     return children;
 }

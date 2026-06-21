@@ -13,8 +13,14 @@ export const mainNavItems: MainNavItem[] = [
     { to: paths.dashboard, label: "Dashboard", icon: LayoutDashboard },
 ];
 
-export const routesWithoutNavbar: AppPath[] = [paths.login, paths.register];
+export const routesWithoutSidebar: AppPath[] = [paths.login, paths.register];
 
-export function isRouteWithoutNavbar(pathname: string) {
-    return routesWithoutNavbar.includes(pathname as AppPath);
+export const publicAuthPaths: AppPath[] = [paths.login, paths.register];
+
+export function isRouteWithoutSidebar(pathname: string) {
+    return routesWithoutSidebar.includes(pathname as AppPath);
+}
+
+export function isPublicAuthPath(pathname: string) {
+    return publicAuthPaths.includes(pathname as AppPath);
 }

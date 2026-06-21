@@ -11,7 +11,7 @@ export function PublicOnlyGuard({ children }: { children: React.ReactNode }) {
     const user = useAuthStore((state) => state.user);
 
     if (user) {
-        return <Navigate to={paths.home} />;
+        return <Navigate to={paths.dashboard} replace />;
     }
 
     return children;

@@ -5,19 +5,19 @@ export const LOGIN_DEMO_ACCOUNTS = [
         value: "director@gmail.com",
         label: "Director",
         email: "director@gmail.com",
-        password: "director",
+        password: "Password123!",
     },
     {
         value: "manager@gmail.com",
         label: "Manager",
         email: "manager@gmail.com",
-        password: "manager",
+        password: "Password123!",
     },
     {
         value: "employee@gmail.com",
         label: "Employee",
         email: "employee@gmail.com",
-        password: "employee",
+        password: "Password123!",
     },
 ] as const;
 

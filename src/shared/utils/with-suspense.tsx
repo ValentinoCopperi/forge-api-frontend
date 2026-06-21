@@ -1,16 +1,16 @@
-import { Suspense } from "react"
-
-
-
-
+import {
+    Suspense,
+    type ComponentType,
+    type LazyExoticComponent,
+} from "react";
 
 const withSuspense = <T extends object>(
-    Component: React.LazyExoticComponent<React.ComponentType<T>>,
+    Component: LazyExoticComponent<ComponentType<T>>,
     props?: T
 ) => (
     <Suspense fallback={<div>Loading...</div>}>
-        <Component {...(props ?? {} as T)} />
+        <Component {...(props ?? ({} as T))} />
     </Suspense>
-)
+);
 
-export default withSuspense
+export default withSuspense;
