@@ -5,12 +5,14 @@ export const paths = {
     dashboard: "/dashboard",
     profile: "/profile",
     settings: "/settings",
+
 } as const;
 
 export type AppPath = (typeof paths)[keyof typeof paths];
 
 
 export const pathBuilder = {
+    userProfile: (userId: number | string) => `${paths.profile}/${userId}`,
     org: (orgId: number | string) =>
         `${paths.dashboard}/organization/${orgId}`,
     orgRoles: (orgId: number | string) =>
@@ -51,6 +53,19 @@ export const pathSegments = {
 
     /** Segmentos atómicos para rutas anidadas */
     organization: "organization",
+
+    /** Ruta para la lista de organizaciones */
+    organizations: "organizations",
+
+    /** Ruta para la lista de roles */
+    roles_management: "roles_management",
+
+    /** Ruta para settings */
+    settings: "settings",
+
+    /** Ruta para el tutorial */
+    tutorial: "tutorial",
+    
 } as const;
 
 

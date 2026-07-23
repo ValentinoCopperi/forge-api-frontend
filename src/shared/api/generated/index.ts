@@ -150,7 +150,7 @@ export interface UserResponseDto {
      */
   avatarUrl: UserResponseDtoAvatarUrl;
   /** The user roles */
-  roles: UserResponseDtoRoles[];
+  roles: UserResponseDtoRoles;
 }
 
 export interface CreateOrganizationDto {
@@ -302,6 +302,56 @@ export interface UpdateUserOrganizationRoleDto {
 }
 
 /**
+ * The role of the current user in the organization
+ */
+export type OrganizationsGetAllByUserResponseDtoRole = typeof OrganizationsGetAllByUserResponseDtoRole[keyof typeof OrganizationsGetAllByUserResponseDtoRole];
+
+
+export const OrganizationsGetAllByUserResponseDtoRole = {
+  OWNER: 'OWNER',
+  ADMIN: 'ADMIN',
+  MEMBER: 'MEMBER',
+  VIEWER: 'VIEWER',
+} as const;
+
+export interface OrganizationsGetAllByUserResponseDto {
+  /** The id of the organization */
+  id: number;
+  /** The name of the organization */
+  name: string;
+  /**
+     * The description of the organization
+     * @nullable
+     */
+  description: string | null;
+  /** The created at date of the organization */
+  createdAt: string;
+  /** The updated at date of the organization */
+  updatedAt: string;
+  /**
+     * The logo url of the organization
+     * @nullable
+     */
+  logoUrl: string | null;
+  /**
+     * The banner url of the organization
+     * @nullable
+     */
+  bannerUrl: string | null;
+  /** The user who created the organization */
+  User_Organization_createdByUserIdToUser: OrganizationUserResponseDto;
+  /** Related entity counts */
+  _count: OrganizationCountResponseDto;
+  /** The role of the current user in the organization */
+  role: OrganizationsGetAllByUserResponseDtoRole;
+}
+
+export interface OrganizationsGetAllByUserListResponseDto {
+  data: OrganizationsGetAllByUserResponseDto[];
+  timestamp: string;
+}
+
+/**
  * The status of the project
  */
 export type OrganizationProjectResponseDtoStatus = typeof OrganizationProjectResponseDtoStatus[keyof typeof OrganizationProjectResponseDtoStatus];
@@ -389,20 +439,36 @@ export interface OrganizationFindOneResponseDto {
   OrganizationUser: OrganizationMemberResponseDto[];
 }
 
-export interface OrganizationOfUserDto {
-  /** The id of the organization */
+/**
+ * The roles of the user
+ */
+export type GetAllUsersResponseDtoUserRole = typeof GetAllUsersResponseDtoUserRole[keyof typeof GetAllUsersResponseDtoUserRole];
+
+
+export const GetAllUsersResponseDtoUserRole = {
+  DIRECTOR: 'DIRECTOR',
+  GERENTE: 'GERENTE',
+  EMPLEADO: 'EMPLEADO',
+} as const;
+
+export interface GetAllUsersResponseDto {
+  /** The id of the user */
   id: number;
-  /** The name of the organization */
+  /** The name of the user */
   name: string;
+  /** The email of the user */
+  email: string;
   /**
-     * The logo url of the organization
+     * The avatar url of the user
      * @nullable
      */
-  logoUrl: string | null;
+  avatarUrl: string | null;
+  /** The roles of the user */
+  UserRole: GetAllUsersResponseDtoUserRole;
 }
 
-export interface OrganizationOfUserResponseDto {
-  data: OrganizationOfUserDto[];
+export interface GetAllUsersResponseDtoListResponseDto {
+  data: GetAllUsersResponseDto[];
   timestamp: string;
 }
 
@@ -1355,6 +1421,99 @@ export const useOrganizationsControllerUpdateUserOrganizationRole = <TError = Er
     }
 
 /**
+ * @summary Get all organizations of the current user
+ */
+export const organizationsControllerFindAllByUserId = (
+
+ options?: SecondParameter<typeof customInstance>,signal?: AbortSignal
+) => {
+
+
+      return customInstance<OrganizationsGetAllByUserListResponseDto>(
+      {url: `${API_BASE_URL}/api/v1/organizations/user`, method: 'GET', signal
+    },
+      options);
+    }
+
+
+
+
+export const getOrganizationsControllerFindAllByUserIdQueryKey = () => {
+    return [
+    `${API_BASE_URL}/api/v1/organizations/user`
+    ] as const;
+    }
+
+
+export const getOrganizationsControllerFindAllByUserIdQueryOptions = <TData = Awaited<ReturnType<typeof organizationsControllerFindAllByUserId>>, TError = ErrorType<ApiErrorResponseDto>>( options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof organizationsControllerFindAllByUserId>>, TError, TData>>, request?: SecondParameter<typeof customInstance>}
+) => {
+
+const {query: queryOptions, request: requestOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getOrganizationsControllerFindAllByUserIdQueryKey();
+
+
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof organizationsControllerFindAllByUserId>>> = ({ signal }) => organizationsControllerFindAllByUserId(requestOptions, signal);
+
+
+
+
+
+   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof organizationsControllerFindAllByUserId>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+}
+
+export type OrganizationsControllerFindAllByUserIdQueryResult = NonNullable<Awaited<ReturnType<typeof organizationsControllerFindAllByUserId>>>
+export type OrganizationsControllerFindAllByUserIdQueryError = ErrorType<ApiErrorResponseDto>
+
+
+export function useOrganizationsControllerFindAllByUserId<TData = Awaited<ReturnType<typeof organizationsControllerFindAllByUserId>>, TError = ErrorType<ApiErrorResponseDto>>(
+  options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof organizationsControllerFindAllByUserId>>, TError, TData>> & Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof organizationsControllerFindAllByUserId>>,
+          TError,
+          Awaited<ReturnType<typeof organizationsControllerFindAllByUserId>>
+        > , 'initialData'
+      >, request?: SecondParameter<typeof customInstance>}
+ , queryClient?: QueryClient
+  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useOrganizationsControllerFindAllByUserId<TData = Awaited<ReturnType<typeof organizationsControllerFindAllByUserId>>, TError = ErrorType<ApiErrorResponseDto>>(
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof organizationsControllerFindAllByUserId>>, TError, TData>> & Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof organizationsControllerFindAllByUserId>>,
+          TError,
+          Awaited<ReturnType<typeof organizationsControllerFindAllByUserId>>
+        > , 'initialData'
+      >, request?: SecondParameter<typeof customInstance>}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useOrganizationsControllerFindAllByUserId<TData = Awaited<ReturnType<typeof organizationsControllerFindAllByUserId>>, TError = ErrorType<ApiErrorResponseDto>>(
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof organizationsControllerFindAllByUserId>>, TError, TData>>, request?: SecondParameter<typeof customInstance>}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+/**
+ * @summary Get all organizations of the current user
+ */
+
+export function useOrganizationsControllerFindAllByUserId<TData = Awaited<ReturnType<typeof organizationsControllerFindAllByUserId>>, TError = ErrorType<ApiErrorResponseDto>>(
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof organizationsControllerFindAllByUserId>>, TError, TData>>, request?: SecondParameter<typeof customInstance>}
+ , queryClient?: QueryClient
+ ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+
+  const queryOptions = getOrganizationsControllerFindAllByUserIdQueryOptions(options)
+
+  const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+
+  return { ...query, queryKey: queryOptions.queryKey };
+}
+
+
+
+
+
+
+
+/**
  * @summary Get an organization by id
  */
 export const organizationsControllerFindOne = (
@@ -1588,99 +1747,6 @@ export const useOrganizationsControllerRemove = <TError = ErrorType<ApiErrorResp
     }
 
 /**
- * @summary Get all organizations of a user
- */
-export const organizationsControllerFindAllByUserId = (
-
- options?: SecondParameter<typeof customInstance>,signal?: AbortSignal
-) => {
-
-
-      return customInstance<OrganizationOfUserResponseDto>(
-      {url: `${API_BASE_URL}/api/v1/organizations/user`, method: 'GET', signal
-    },
-      options);
-    }
-
-
-
-
-export const getOrganizationsControllerFindAllByUserIdQueryKey = () => {
-    return [
-    `${API_BASE_URL}/api/v1/organizations/user`
-    ] as const;
-    }
-
-
-export const getOrganizationsControllerFindAllByUserIdQueryOptions = <TData = Awaited<ReturnType<typeof organizationsControllerFindAllByUserId>>, TError = ErrorType<ApiErrorResponseDto>>( options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof organizationsControllerFindAllByUserId>>, TError, TData>>, request?: SecondParameter<typeof customInstance>}
-) => {
-
-const {query: queryOptions, request: requestOptions} = options ?? {};
-
-  const queryKey =  queryOptions?.queryKey ?? getOrganizationsControllerFindAllByUserIdQueryKey();
-
-
-
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof organizationsControllerFindAllByUserId>>> = ({ signal }) => organizationsControllerFindAllByUserId(requestOptions, signal);
-
-
-
-
-
-   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof organizationsControllerFindAllByUserId>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
-}
-
-export type OrganizationsControllerFindAllByUserIdQueryResult = NonNullable<Awaited<ReturnType<typeof organizationsControllerFindAllByUserId>>>
-export type OrganizationsControllerFindAllByUserIdQueryError = ErrorType<ApiErrorResponseDto>
-
-
-export function useOrganizationsControllerFindAllByUserId<TData = Awaited<ReturnType<typeof organizationsControllerFindAllByUserId>>, TError = ErrorType<ApiErrorResponseDto>>(
-  options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof organizationsControllerFindAllByUserId>>, TError, TData>> & Pick<
-        DefinedInitialDataOptions<
-          Awaited<ReturnType<typeof organizationsControllerFindAllByUserId>>,
-          TError,
-          Awaited<ReturnType<typeof organizationsControllerFindAllByUserId>>
-        > , 'initialData'
-      >, request?: SecondParameter<typeof customInstance>}
- , queryClient?: QueryClient
-  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function useOrganizationsControllerFindAllByUserId<TData = Awaited<ReturnType<typeof organizationsControllerFindAllByUserId>>, TError = ErrorType<ApiErrorResponseDto>>(
-  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof organizationsControllerFindAllByUserId>>, TError, TData>> & Pick<
-        UndefinedInitialDataOptions<
-          Awaited<ReturnType<typeof organizationsControllerFindAllByUserId>>,
-          TError,
-          Awaited<ReturnType<typeof organizationsControllerFindAllByUserId>>
-        > , 'initialData'
-      >, request?: SecondParameter<typeof customInstance>}
- , queryClient?: QueryClient
-  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function useOrganizationsControllerFindAllByUserId<TData = Awaited<ReturnType<typeof organizationsControllerFindAllByUserId>>, TError = ErrorType<ApiErrorResponseDto>>(
-  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof organizationsControllerFindAllByUserId>>, TError, TData>>, request?: SecondParameter<typeof customInstance>}
- , queryClient?: QueryClient
-  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-/**
- * @summary Get all organizations of a user
- */
-
-export function useOrganizationsControllerFindAllByUserId<TData = Awaited<ReturnType<typeof organizationsControllerFindAllByUserId>>, TError = ErrorType<ApiErrorResponseDto>>(
-  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof organizationsControllerFindAllByUserId>>, TError, TData>>, request?: SecondParameter<typeof customInstance>}
- , queryClient?: QueryClient
- ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
-
-  const queryOptions = getOrganizationsControllerFindAllByUserIdQueryOptions(options)
-
-  const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
-
-  return { ...query, queryKey: queryOptions.queryKey };
-}
-
-
-
-
-
-
-
-/**
  * Uploads an avatar for the current user
  * @summary Upload avatar
  */
@@ -1744,6 +1810,99 @@ export const useUsersControllerUploadFile = <TError = ErrorType<ApiErrorResponse
       > => {
       return useMutation(getUsersControllerUploadFileMutationOptions(options), queryClient);
     }
+
+/**
+ * @summary Get all users
+ */
+export const usersControllerFindAll = (
+
+ options?: SecondParameter<typeof customInstance>,signal?: AbortSignal
+) => {
+
+
+      return customInstance<GetAllUsersResponseDtoListResponseDto>(
+      {url: `${API_BASE_URL}/api/v1/users`, method: 'GET', signal
+    },
+      options);
+    }
+
+
+
+
+export const getUsersControllerFindAllQueryKey = () => {
+    return [
+    `${API_BASE_URL}/api/v1/users`
+    ] as const;
+    }
+
+
+export const getUsersControllerFindAllQueryOptions = <TData = Awaited<ReturnType<typeof usersControllerFindAll>>, TError = ErrorType<ApiErrorResponseDto>>( options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof usersControllerFindAll>>, TError, TData>>, request?: SecondParameter<typeof customInstance>}
+) => {
+
+const {query: queryOptions, request: requestOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getUsersControllerFindAllQueryKey();
+
+
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof usersControllerFindAll>>> = ({ signal }) => usersControllerFindAll(requestOptions, signal);
+
+
+
+
+
+   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof usersControllerFindAll>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+}
+
+export type UsersControllerFindAllQueryResult = NonNullable<Awaited<ReturnType<typeof usersControllerFindAll>>>
+export type UsersControllerFindAllQueryError = ErrorType<ApiErrorResponseDto>
+
+
+export function useUsersControllerFindAll<TData = Awaited<ReturnType<typeof usersControllerFindAll>>, TError = ErrorType<ApiErrorResponseDto>>(
+  options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof usersControllerFindAll>>, TError, TData>> & Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof usersControllerFindAll>>,
+          TError,
+          Awaited<ReturnType<typeof usersControllerFindAll>>
+        > , 'initialData'
+      >, request?: SecondParameter<typeof customInstance>}
+ , queryClient?: QueryClient
+  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useUsersControllerFindAll<TData = Awaited<ReturnType<typeof usersControllerFindAll>>, TError = ErrorType<ApiErrorResponseDto>>(
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof usersControllerFindAll>>, TError, TData>> & Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof usersControllerFindAll>>,
+          TError,
+          Awaited<ReturnType<typeof usersControllerFindAll>>
+        > , 'initialData'
+      >, request?: SecondParameter<typeof customInstance>}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useUsersControllerFindAll<TData = Awaited<ReturnType<typeof usersControllerFindAll>>, TError = ErrorType<ApiErrorResponseDto>>(
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof usersControllerFindAll>>, TError, TData>>, request?: SecondParameter<typeof customInstance>}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+/**
+ * @summary Get all users
+ */
+
+export function useUsersControllerFindAll<TData = Awaited<ReturnType<typeof usersControllerFindAll>>, TError = ErrorType<ApiErrorResponseDto>>(
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof usersControllerFindAll>>, TError, TData>>, request?: SecondParameter<typeof customInstance>}
+ , queryClient?: QueryClient
+ ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+
+  const queryOptions = getUsersControllerFindAllQueryOptions(options)
+
+  const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+
+  return { ...query, queryKey: queryOptions.queryKey };
+}
+
+
+
+
+
+
 
 export const projectsControllerCreate = (
     createProjectDto: CreateProjectDto,

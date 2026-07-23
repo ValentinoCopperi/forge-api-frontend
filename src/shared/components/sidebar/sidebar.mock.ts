@@ -1,5 +1,5 @@
-import { Home, ShieldCheck } from "lucide-react";
-import { paths } from "@/shared/config/routes";
+import { Book, Building2, Home, Settings, ShieldCheck } from "lucide-react";
+import { paths, pathSegments } from "@/shared/config/routes";
 import type {
     SidebarNavGroupConfig,
     SidebarUserInfo,
@@ -29,10 +29,24 @@ export const SIDEBAR_NAV_GROUPS: SidebarNavGroupConfig[] = [
                     pathname === paths.home || pathname === paths.dashboard,
             },
             {
-                to: "#",
+                to: pathSegments.tutorial,
+                label: "Tutorial",
+                icon: Book,
+            },
+            {
+                to: pathSegments.organizations,
+                label: "Organizations",
+                icon: Building2,
+            },
+            {
+                to: pathSegments.roles_management,
                 label: "Roles & Management",
                 icon: ShieldCheck,
-                disabled: true,
+            },
+            {
+                to: pathSegments.settings,
+                label: "Settings",
+                icon: Settings,
             },
         ],
     },

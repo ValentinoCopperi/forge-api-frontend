@@ -14,7 +14,7 @@ import { getAvatarSrc, getInitials } from "@/shared/utils/avatar.utils";
 import { cn } from "@/shared/utils/utils";
 import { Building2, Check, ChevronsUpDown } from "lucide-react";
 import { useNavigate, useParams } from "react-router-dom";
-import { LAST_ORG_STORAGE_KEY } from "./sidebar.constants";
+import { LAST_ORG_STORAGE_KEY, notifyActiveOrganizationChange } from "./sidebar.constants";
 import { resolveSelectedOrganizationId } from "./sidebar.navigation";
 
 function OrganizationAvatar({ organization }: { organization: OrganizationOfUserDto }) {
@@ -90,6 +90,14 @@ export function SidebarWorkspaceSwitcher() {
                 (org) => org.id === organizationIdFromUrl
             );
 
+            if (matchedOrganization) {
+                localStorage.setItem(
+                    LAST_ORG_STORAGE_KEY,
+                    String(matchedOrganization.id)
+                );
+                notifyActiveOrganizationChange();
+            }
+
             setSelectedOrganizationId(matchedOrganization?.id ?? null);
             return;
         }
@@ -100,6 +108,7 @@ export function SidebarWorkspaceSwitcher() {
     const handleOrganizationSelect = (organizationId: number) => {
         setSelectedOrganizationId(organizationId);
         localStorage.setItem(LAST_ORG_STORAGE_KEY, String(organizationId));
+        notifyActiveOrganizationChange();
         navigate(pathBuilder.org(organizationId));
     };
 

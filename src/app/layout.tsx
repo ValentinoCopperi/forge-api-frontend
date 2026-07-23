@@ -4,11 +4,11 @@ import { Outlet } from "react-router-dom";
 
 export default function AppLayout() {
     return (
-        <div className="min-h-screen bg-background">
+        <div className="app-canvas min-h-screen">
             <AppSidebar />
             <div className="ml-64 min-h-screen">
                 <AppNavbar />
-                <main className="px-6 py-6 sm:px-8">
+                <main className="px-6 py-7 sm:px-8">
                     <Outlet />
                 </main>
             </div>

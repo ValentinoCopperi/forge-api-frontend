@@ -1,6 +1,5 @@
 import { AppRouteError } from "@/shared/components/errors/app-error";
 import {
-    pathBuilder,
     pathSegments,
     paths,
     type PageHeaderHandle,
@@ -12,16 +11,33 @@ import AppLayout from "../layout";
 import { RoutesGuard } from "@/features/auth/guards/private.guard";
 import { PublicOnlyGuard } from "@/features/auth/guards/public-only.guard";
 
+// Pages
+const OrganizationsPage = lazy(() => import("@/pages/organizations/organizations.page"));
+const RolesManagementPage = lazy(() => import("@/pages/roles-management/roles-management.page"));
+const SettingsPage = lazy(() => import("@/pages/settings/settings.page"));
+const TutorialPage = lazy(() => import("@/pages/tutorial/tutorial.page"));
+
+// Auth pages
 const LoginPage = lazy(() => import("@/pages/login/login.page"));
 const RegisterPage = lazy(() => import("@/pages/register/register.page"));
 const DashboardPage = lazy(() => import("@/pages/dashboard/dashboard.page"));
+
+// Organization pages
 const OrgPage = lazy(() => import("@/pages/organization/org.page"));
 const OrgRolesPage = lazy(() => import("@/pages/organization/org-roles.page"));
+
+// Projects pages
 const ProjectsPage = lazy(() => import("@/pages/projects/projects.page"));
 const ProjectPage = lazy(() => import("@/pages/projects/project.page"));
+
+// Tasks pages
 const TasksPage = lazy(() => import("@/pages/tasks/tasks.page"));
 const TaskPage = lazy(() => import("@/pages/tasks/task.page"));
+
+// Not found page
 const NotFoundPage = lazy(() => import("@/pages/not-found/not-found.page"));
+
+
 
 const pageHeaders = {
     dashboard: {
@@ -52,6 +68,14 @@ const pageHeaders = {
         title: "Task",
         subtitle: `Review task ${taskId ?? "details"} and its current progress.`,
     }),
+    tutorial: {
+        title: "Tutorial",
+        subtitle: "Explore the API interactively and verify that everything works.",
+    },
+    organizations: {
+        title: "Organizations",
+        subtitle: "Browse and manage the workspaces linked to your account.",
+    },
     notFound: {
         title: "Page not found",
         subtitle: "The page you are looking for does not exist.",
@@ -72,11 +96,7 @@ export const routes = createBrowserRouter([
     {
         path: paths.home,
         loader: () => {
-            const orgId = localStorage.getItem("forge.last-org");
-
-            return orgId
-                ? redirect(pathBuilder.org(orgId))
-                : redirect(paths.dashboard);
+            return redirect(paths.dashboard);
         },
     },
     {
@@ -92,6 +112,24 @@ export const routes = createBrowserRouter([
                 index: true,
                 element: withSuspense(DashboardPage),
                 handle: { pageHeader: pageHeaders.dashboard },
+            },
+            {
+                path: pathSegments.organizations,
+                element: withSuspense(OrganizationsPage),
+                handle: { pageHeader: pageHeaders.organizations },
+            },
+            {
+                path: pathSegments.roles_management,
+                element: withSuspense(RolesManagementPage),
+            },
+            {
+                path: pathSegments.settings,
+                element: withSuspense(SettingsPage),
+            },
+            {
+                path: pathSegments.tutorial,
+                element: withSuspense(TutorialPage),
+                handle: { pageHeader: pageHeaders.tutorial },
             },
             {
                 path: pathSegments.organization,

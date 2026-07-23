@@ -1,12 +1,14 @@
-import { useMatches, useNavigate } from "react-router-dom";
+import { useLocation, useMatches, useNavigate } from "react-router-dom";
 import { useAuthStore } from "@/features/auth/stores/auth.store";
 import { SidebarUserProfile } from "@/shared/components/sidebar/sidebar-user-profile";
 import {
     paths,
+    resolveBreadcrumbs,
     resolvePageHeader,
     type PageHeader,
     type PageHeaderHandle,
 } from "@/shared/config/routes";
+import { AppBreadcrumbs } from "@/shared/components/navbar/app-breadcrumbs";
 import { Button } from "@/shared/ui/button";
 import {
     DropdownMenu,
@@ -27,6 +29,7 @@ import {
 } from "lucide-react";
 
 type PageHeaderMatch = {
+    pathname: string;
     params: Record<string, string | undefined>;
     handle?: PageHeaderHandle;
 };
@@ -43,13 +46,16 @@ const notificationItems = [
 ];
 
 const iconButtonClassName =
-    "size-10 rounded-xl border-border bg-card shadow-sm hover:bg-muted/60";
+    "size-10 rounded-xl border-primary/15 bg-card shadow-sm hover:border-primary/25 hover:bg-primary/5";
+
 
 export function AppNavbar() {
+    const location = useLocation();
     const matches = useMatches() as PageHeaderMatch[];
     const navigate = useNavigate();
     const user = useAuthStore((state) => state.user);
 
+    const breadcrumbs = resolveBreadcrumbs(matches, location.pathname);
 
     const header =
         [...matches]
@@ -58,19 +64,19 @@ export function AppNavbar() {
             .find(Boolean) ?? fallbackHeader;
 
     return (
-        <header className="sticky top-0 z-20 border-b border-border bg-background/90 px-6 py-4 shadow-sm backdrop-blur-xl sm:px-8">
+        <header className="sticky top-0 z-20 border-b border-primary/10 bg-card/85 px-6 py-4 shadow-[0_4px_24px_oklch(0.52_0.19_275/0.06)] backdrop-blur-xl sm:px-8">
             <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
                 <div className="min-w-0">
-                    <div className="flex flex-wrap items-center gap-2">
-                        <h1 className="truncate text-2xl font-semibold tracking-tight text-foreground">
-                            {header.title}
-                        </h1>
-                        <span className="inline-flex items-center gap-1 rounded-full border border-primary/15 bg-primary/10 px-2.5 py-1 text-xs font-medium text-primary">
+                    <div className="flex flex-wrap items-center gap-3">
+                        <AppBreadcrumbs items={breadcrumbs} />
+                        <span className="inline-flex items-center gap-1.5 rounded-full border border-primary/25 bg-primary/12 px-2.5 py-1 text-xs font-semibold text-primary shadow-sm shadow-primary/10">
                             <Sparkles className="size-3.5" />
                             Live workspace
                         </span>
                     </div>
-                    <p className="mt-1 text-sm text-muted-foreground">{header.subtitle}</p>
+                    <p className="mt-1.5 text-sm font-medium text-muted-foreground">
+                        {header.subtitle}
+                    </p>
                 </div>
 
                 <div className="flex min-w-0 flex-wrap items-center justify-end gap-2">

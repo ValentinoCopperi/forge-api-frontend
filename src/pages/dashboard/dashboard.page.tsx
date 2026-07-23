@@ -1,41 +1,73 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import useSound from "use-sound";
 import { Activity, Building2, ChevronDown, FolderKanban, UsersRound } from "lucide-react";
 import { useAuthStore } from "@/features/auth/stores/auth.store";
 import {
-    DashboardCard,
     DashboardEmptyState,
     DashboardErrorState,
+    DashboardHero,
     DashboardInsights,
     DashboardLoadingState,
     DashboardOrganizationCard,
     DashboardSectionHeader,
+    DashboardShell,
     DashboardStatCard,
     formatCompactNumber,
     useDashboardData,
 } from "@/features/dashboard";
 import { Button } from "@/shared/ui/button";
 import { Spinner } from "@/shared/ui/spinner";
+import { useLocalStorage } from "@/shared/hooks";
+import { HAS_SEEN_ON_BOARDING } from "@/shared/constants";
+import { TutorialModal } from "@/shared/components/tutorial";
+import { toast } from "sonner";
 
-const INITIAL_ORGANIZATIONS_LIMIT = 9;
+const INITIAL_ORGANIZATIONS_LIMIT = 3;
 
 export default function DashboardPage() {
     const [showAllOrganizations, setShowAllOrganizations] = useState(false);
+    const [play] = useSound("/sounds/notification-sound.wav");
     const user = useAuthStore((state) => state.user);
+    const { data, setDataStorage } = useLocalStorage<boolean>(HAS_SEEN_ON_BOARDING, false);
     const dashboard = useDashboardData();
+    const hasWelcomed = useRef(false);
+
+    useEffect(() => {
+        if (hasWelcomed.current) return;
+        if (dashboard.isLoading || dashboard.isError) return;
+
+        hasWelcomed.current = true;
+        play();
+        toast.success("Welcome to Forge", {
+            description: "Navigate to /tutorial to get started",
+            duration: 4000,
+            position: "bottom-right",
+        });
+    }, [dashboard.isLoading, dashboard.isError, play]);
 
     if (dashboard.isLoading) {
-        return <DashboardLoadingState />;
+        return (
+            <DashboardShell>
+                <DashboardLoadingState />
+            </DashboardShell>
+        );
     }
 
     if (dashboard.isError) {
-        return <DashboardErrorState />;
+        return (
+            <DashboardShell>
+                <DashboardErrorState />
+            </DashboardShell>
+        );
     }
 
     if (dashboard.organizations.length === 0) {
-        return <DashboardEmptyState />;
+        return (
+            <DashboardShell>
+                <DashboardEmptyState />
+            </DashboardShell>
+        );
     }
-
-    console.log("dashboard.organizations", dashboard.organizations);
 
     const hasMoreOrganizations =
         dashboard.organizations.length > INITIAL_ORGANIZATIONS_LIMIT;
@@ -44,68 +76,57 @@ export default function DashboardPage() {
         : dashboard.organizations.slice(0, INITIAL_ORGANIZATIONS_LIMIT);
 
     return (
-        <div className="mx-auto flex w-full max-w-[85vw] flex-col gap-6">
-            <header className="relative overflow-hidden rounded-[2rem] border border-border bg-card p-6 shadow-sm sm:p-8">
-                <div className="absolute inset-y-0 right-0 w-1/2 bg-linear-to-l from-primary/15 to-transparent" />
-                <div className="absolute -top-24 -right-24 size-64 rounded-full bg-primary/10 blur-3xl" />
-                <div className="relative flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
-                    <div className="max-w-3xl">
-                        <div className="inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/10 px-3 py-1 text-xs font-medium text-primary">
-                            <Activity className="size-3.5" />
-                            Executive summary
-                            {dashboard.isRefreshing ? (
-                                <Spinner className="size-3.5" />
-                            ) : null}
-                        </div>
-                        <h1 className="mt-5 text-3xl font-semibold tracking-tight text-foreground sm:text-4xl">
-                            Hello{user?.name ? `, ${user.name}` : ""}. These are
-                            your organizations.
-                        </h1>
-                        <p className="mt-4 max-w-2xl text-sm leading-6 text-muted-foreground sm:text-base">
-                            A centralized view of organizations, members, projects,
-                            owners, and roles using the endpoints defined by the
-                            backend.
-                        </p>
-                    </div>
-
-                    <DashboardCard className="min-w-64 bg-background/70 backdrop-blur">
-                        <p className="text-xs font-semibold tracking-wide text-muted-foreground uppercase">
-                            Data status
-                        </p>
-                        <p className="mt-2 text-2xl font-semibold text-foreground">
-                            {dashboard.hasPartialErrors
-                                ? "Partially loaded"
-                                : "Synced"}
-                        </p>
-                        <p className="mt-2 text-sm text-muted-foreground">
-                            {dashboard.hasPartialErrors
-                                ? "Some detail requests did not respond, but the available information is still displayed."
-                                : "Information updated from organizations and detail-by-ID endpoints."}
-                        </p>
-                    </DashboardCard>
-                </div>
-            </header>
+        <DashboardShell>
+            <DashboardHero
+                badge={{ icon: Activity, label: "Executive summary" }}
+                title={
+                    <>
+                        Hello{user?.name ? `, ${user.name}` : ""}.
+                        <span className="block text-primary sm:inline sm:ml-2">
+                            Your workspace overview.
+                        </span>
+                    </>
+                }
+                description="A centralized view of organizations, members, projects, owners, and roles — synced live from the API."
+                meta={
+                    dashboard.isRefreshing ? (
+                        <span className="inline-flex items-center gap-2 rounded-full border border-chart-2/25 bg-chart-2/10 px-3 py-1 text-xs font-semibold text-chart-2">
+                            <Spinner className="size-3.5" />
+                            Refreshing data...
+                        </span>
+                    ) : (
+                        <span className="inline-flex items-center gap-2 rounded-full border border-chart-3/25 bg-chart-3/10 px-3 py-1 text-xs font-semibold text-chart-3">
+                            <span className="size-1.5 rounded-full bg-chart-3" />
+                            All systems synced
+                        </span>
+                    )
+                }
+            />
 
             <section className="grid gap-5 md:grid-cols-2 xl:grid-cols-4">
                 <DashboardStatCard
+                    accent="primary"
                     icon={Building2}
                     label="Organizations"
                     value={formatCompactNumber(dashboard.totals.organizations)}
                     helper="Total visible to the user"
                 />
                 <DashboardStatCard
+                    accent="blue"
                     icon={UsersRound}
                     label="Members"
                     value={formatCompactNumber(dashboard.totals.members)}
                     helper="Accumulated memberships"
                 />
                 <DashboardStatCard
+                    accent="emerald"
                     icon={FolderKanban}
                     label="Projects"
                     value={formatCompactNumber(dashboard.totals.projects)}
                     helper="Projects reported by organization"
                 />
                 <DashboardStatCard
+                    accent="amber"
                     icon={Activity}
                     label="Active"
                     value={formatCompactNumber(dashboard.totals.activeProjects)}
@@ -131,7 +152,7 @@ export default function DashboardPage() {
                         <Button
                             type="button"
                             size="lg"
-                            className="shadow-lg shadow-primary/25 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-xl hover:shadow-primary/30"
+                            className="shadow-lg shadow-primary/30 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-xl hover:shadow-primary/35"
                             onClick={() => setShowAllOrganizations(true)}
                         >
                             View more organizations
@@ -146,6 +167,16 @@ export default function DashboardPage() {
                 recentOrganizations={dashboard.recentOrganizations}
                 roleDistribution={dashboard.roleDistribution}
             />
-        </div>
+
+            {!data ? (
+                <TutorialModal
+                    open={true}
+                    onOpenChange={() => {}}
+                    onComplete={() => {
+                        setDataStorage(true);
+                    }}
+                />
+            ) : null}
+        </DashboardShell>
     );
 }

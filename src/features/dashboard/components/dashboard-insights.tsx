@@ -38,7 +38,7 @@ export function DashboardInsights({
                                     project.organizationId,
                                     project.id
                                 )}
-                                className="flex items-center justify-between gap-4 rounded-2xl border border-border bg-background p-3 transition-colors hover:bg-muted/50"
+                                className="flex items-center justify-between gap-4 rounded-2xl border border-border/70 bg-background/80 p-3 transition-all hover:border-primary/25 hover:bg-primary/5 hover:shadow-sm"
                             >
                                 <div className="flex min-w-0 items-center gap-3">
                                     <span className="flex size-10 shrink-0 items-center justify-center rounded-2xl bg-primary/10 text-primary">
@@ -85,7 +85,7 @@ export function DashboardInsights({
                             Object.entries(roleDistribution).map(([role, count]) => (
                                 <div
                                     key={role}
-                                    className="flex items-center justify-between rounded-2xl bg-muted/40 px-4 py-3"
+                                    className="flex items-center justify-between rounded-2xl border border-primary/10 bg-primary/5 px-4 py-3"
                                 >
                                     <div className="flex items-center gap-3">
                                         <span className="flex size-9 items-center justify-center rounded-xl bg-primary/10 text-primary">
@@ -106,7 +106,7 @@ export function DashboardInsights({
                                             </span>
                                         </span>
                                     </div>
-                                    <span className="text-lg font-semibold text-foreground">
+                                    <span className="text-lg font-bold text-primary">
                                         {count}
                                     </span>
                                 </div>
@@ -131,7 +131,7 @@ export function DashboardInsights({
                             <Link
                                 key={organization.id}
                                 to={pathBuilder.org(organization.id)}
-                                className="group flex items-center justify-between gap-3 rounded-2xl px-3 py-2.5 transition-colors hover:bg-muted/60"
+                                className="group flex items-center justify-between gap-3 rounded-2xl border border-transparent px-3 py-2.5 transition-all hover:border-primary/20 hover:bg-primary/5"
                             >
                                 <span className="min-w-0">
                                     <span className="block truncate text-sm font-medium text-foreground">

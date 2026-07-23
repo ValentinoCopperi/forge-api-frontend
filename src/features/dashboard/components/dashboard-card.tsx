@@ -4,13 +4,19 @@ import { cn } from "@/shared/utils/utils";
 type DashboardCardProps = {
     children: ReactNode;
     className?: string;
+    hover?: boolean;
 };
 
-export function DashboardCard({ children, className }: DashboardCardProps) {
+export function DashboardCard({
+    children,
+    className,
+    hover = false,
+}: DashboardCardProps) {
     return (
         <section
             className={cn(
-                "rounded-3xl border border-border bg-card p-5 shadow-sm",
+                "dashboard-card-surface p-5",
+                hover && "dashboard-card-surface-hover",
                 className
             )}
         >
@@ -31,11 +37,13 @@ export function DashboardSectionHeader({
     return (
         <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
             <div>
-                <h2 className="text-lg font-semibold tracking-tight text-foreground">
+                <h2 className="text-lg font-bold tracking-tight text-foreground">
                     {title}
                 </h2>
                 {description ? (
-                    <p className="mt-1 text-sm text-muted-foreground">{description}</p>
+                    <p className="mt-1 text-sm leading-6 text-muted-foreground">
+                        {description}
+                    </p>
                 ) : null}
             </div>
             {action ? <div className="shrink-0">{action}</div> : null}

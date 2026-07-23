@@ -25,8 +25,8 @@ export function DashboardOrganizationCard({
     const previewMembers = organization.members.slice(0, 4);
 
     return (
-        <DashboardCard className="overflow-hidden p-0">
-            <div className="relative h-28 bg-gradient-to-br from-primary/25 via-primary/10 to-muted">
+        <DashboardCard hover className="overflow-hidden p-0">
+            <div className="relative h-28 bg-linear-to-br from-primary/30 via-chart-2/15 to-chart-3/10">
                 {organization.bannerUrl ? (
                     <img
                         src={organization.bannerUrl}
@@ -34,7 +34,7 @@ export function DashboardOrganizationCard({
                         className="absolute inset-0 size-full object-cover"
                     />
                 ) : null}
-                <div className="absolute inset-0 bg-gradient-to-t from-background/90 to-transparent" />
+                <div className="absolute inset-0 bg-linear-to-t from-card/95 to-transparent" />
             </div>
 
             <div className="-mt-10 space-y-5 p-5 pt-0">
@@ -43,7 +43,7 @@ export function DashboardOrganizationCard({
                         {logoSrc ? (
                             <AvatarImage src={logoSrc} alt={organization.name} />
                         ) : null}
-                        <AvatarFallback className="bg-primary text-lg font-semibold text-primary-foreground">
+                        <AvatarFallback className="bg-linear-to-br from-primary to-chart-2 text-lg font-bold text-primary-foreground">
                             {getInitials(organization.name)}
                         </AvatarFallback>
                     </Avatar>
@@ -88,7 +88,7 @@ export function DashboardOrganizationCard({
                     />
                 </div>
 
-                <div className="space-y-3 rounded-2xl border border-border bg-muted/30 p-3">
+                <div className="space-y-3 rounded-2xl border border-primary/10 bg-primary/5 p-3">
                     <div className="flex items-center justify-between gap-3">
                         <p className="text-xs font-semibold tracking-wide text-muted-foreground uppercase">
                             Recent projects
@@ -186,7 +186,7 @@ function Metric({
     compact?: boolean;
 }) {
     return (
-        <div className="rounded-2xl border border-border bg-background p-3">
+        <div className="rounded-2xl border border-border/70 bg-background/80 p-3 backdrop-blur-sm">
             <Icon className="mb-2 size-4 text-primary" />
             <p
                 className={cn(
