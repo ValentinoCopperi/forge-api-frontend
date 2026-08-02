@@ -163,6 +163,7 @@ export default function DashboardPage() {
             </section>
 
 
+
             <DashboardInsights
                 latestProjects={dashboard.latestProjects}
                 recentOrganizations={dashboard.recentOrganizations}
