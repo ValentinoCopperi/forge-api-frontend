@@ -162,6 +162,7 @@ export default function DashboardPage() {
                 ) : null}
             </section>
 
+
             <DashboardInsights
                 latestProjects={dashboard.latestProjects}
                 recentOrganizations={dashboard.recentOrganizations}
