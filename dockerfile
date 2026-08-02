@@ -5,13 +5,13 @@ WORKDIR /app
 
 # copia los archivos de dependencias (si package*.json no cambia, esta capa no se reconstruye gracias al cache)
 COPY package*.json ./    
-RUN npm install            # esta capa solo depende de package*.json
+RUN pnpm install            # esta capa solo depende de package*.json
 
 
 #copy . . , copia todos los archivos del proyecto en /app (con dockerignore, elegimos que archivos copiar y cuales ignorar)
 # copia el resto del codigo (si no cambia, esta capa no se reconstruye gracias al cache)
 COPY . .                  
-RUN npm run build
+RUN pnpm run build
 
 
 

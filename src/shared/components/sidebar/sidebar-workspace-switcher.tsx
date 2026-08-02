@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import type { OrganizationOfUserDto } from "@/shared/api/generated";
 import { useOrganizationsControllerFindAllByUserId } from "@/shared/api/generated";
 import { pathBuilder } from "@/shared/config/routes";
 import { Avatar, AvatarFallback, AvatarImage } from "@/shared/ui/avatar";
@@ -17,7 +16,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { LAST_ORG_STORAGE_KEY, notifyActiveOrganizationChange } from "./sidebar.constants";
 import { resolveSelectedOrganizationId } from "./sidebar.navigation";
 
-function OrganizationAvatar({ organization }: { organization: OrganizationOfUserDto }) {
+function OrganizationAvatar({ organization }: { organization: any }) {
     const logoSrc = getAvatarSrc(organization.logoUrl);
     const initials = getInitials(organization.name);
 
@@ -42,7 +41,7 @@ function WorkspaceSectionTitle() {
 }
 
 function resolveStoredOrganizationId(
-    organizations: OrganizationOfUserDto[]
+    organizations: any[]
 ): number | null {
     const storedOrgId = localStorage.getItem(LAST_ORG_STORAGE_KEY);
 

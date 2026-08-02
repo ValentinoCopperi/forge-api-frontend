@@ -156,7 +156,7 @@ export default function DashboardPage() {
                             onClick={() => setShowAllOrganizations(true)}
                         >
                             View more organizations
-                            <ChevronDown className="size-4 animate-bounce" />
+                            <ChevronDown className="size-4 animate-[float_1.8s_ease-in-out_infinite]" />
                         </Button>
                     </div>
                 ) : null}

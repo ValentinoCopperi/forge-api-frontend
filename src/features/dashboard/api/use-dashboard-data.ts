@@ -8,7 +8,6 @@ import {
 import type {
     OrganizationFindOneResponseDto,
     OrganizationMemberResponseDto,
-    OrganizationOfUserDto,
     OrganizationProjectResponseDto,
     OrganizationsGetAllResponseDto,
 } from "@/shared/api/generated";
@@ -50,7 +49,7 @@ function isOrganizationDetail(
 function toDashboardOrganization(
     id: number,
     catalogOrganization?: OrganizationsGetAllResponseDto,
-    userOrganization?: OrganizationOfUserDto,
+    userOrganization?: any,
     detail?: OrganizationFindOneResponseDto
 ): DashboardOrganization {
     const members = detail?.OrganizationUser ?? [];
