@@ -76,7 +76,7 @@ export function ProjectsTable({
                 <div className="overflow-x-auto">
                     <table className="w-full min-w-[860px] border-collapse text-left">
                         <thead>
-                            <tr className="border-b border-primary/10 dashboard-table-head">
+                            <tr className="border-b border-border dashboard-table-head">
                                 <TableHead>Project</TableHead>
                                 <TableHead>Status</TableHead>
                                 <TableHead>Manager</TableHead>

@@ -110,11 +110,10 @@ export function TutorialModal({
         showCloseButton={false}
         className="overflow-hidden p-0 sm:max-w-xl"
       >
-        <div className="relative border-b border-border bg-linear-to-br from-primary/10 via-background to-background px-6 pt-6 pb-5">
-          <div className="absolute -top-16 -right-16 size-40 rounded-full bg-primary/15 blur-3xl" />
-          <div className="relative flex items-start justify-between gap-4">
+        <div className="border-b border-border px-6 pt-6 pb-5">
+          <div className="flex items-start justify-between gap-4">
             <div>
-              <p className="text-xs font-semibold tracking-wide text-primary uppercase">
+              <p className="text-xs font-semibold tracking-wide text-muted-foreground uppercase">
                 Quick tour
               </p>
               <DialogTitle className="mt-2 text-xl font-semibold tracking-tight">
@@ -124,12 +123,12 @@ export function TutorialModal({
                 Explore the essentials before diving into your dashboard.
               </DialogDescription>
             </div>
-            <span className="rounded-full border border-primary/20 bg-primary/10 px-3 py-1 text-xs font-medium text-primary">
+            <span className="rounded-md border border-border bg-muted/40 px-2.5 py-1 text-xs font-medium text-muted-foreground">
               {currentStep + 1} / {steps.length}
             </span>
           </div>
 
-          <div className="relative mt-5 h-1.5 overflow-hidden rounded-full bg-primary/10">
+          <div className="mt-5 h-1.5 overflow-hidden rounded-full bg-muted">
             <div
               className="h-full rounded-full bg-primary transition-all duration-300 ease-out"
               style={{ width: `${progress}%` }}

@@ -6,36 +6,31 @@ export type StatAccent = "primary" | "blue" | "emerald" | "amber" | "rose";
 
 const ACCENT_STYLES: Record<
     StatAccent,
-    { orb: string; icon: string; value: string; footer: string }
+    { icon: string; value: string; footer: string }
 > = {
     primary: {
-        orb: "bg-primary/15",
-        icon: "bg-primary/15 text-primary ring-primary/20",
+        icon: "bg-primary/10 text-primary ring-primary/15",
         value: "text-foreground",
         footer: "text-primary",
     },
     blue: {
-        orb: "bg-chart-2/20",
-        icon: "bg-chart-2/15 text-chart-2 ring-chart-2/25",
-        value: "text-chart-2",
+        icon: "bg-chart-2/10 text-chart-2 ring-chart-2/15",
+        value: "text-foreground",
         footer: "text-chart-2",
     },
     emerald: {
-        orb: "bg-chart-3/20",
-        icon: "bg-chart-3/15 text-chart-3 ring-chart-3/25",
-        value: "text-chart-3",
+        icon: "bg-chart-3/10 text-chart-3 ring-chart-3/15",
+        value: "text-foreground",
         footer: "text-chart-3",
     },
     amber: {
-        orb: "bg-chart-4/25",
-        icon: "bg-chart-4/15 text-chart-4 ring-chart-4/25",
-        value: "text-chart-4",
+        icon: "bg-chart-4/10 text-chart-4 ring-chart-4/15",
+        value: "text-foreground",
         footer: "text-chart-4",
     },
     rose: {
-        orb: "bg-chart-5/20",
-        icon: "bg-chart-5/15 text-chart-5 ring-chart-5/25",
-        value: "text-chart-5",
+        icon: "bg-chart-5/10 text-chart-5 ring-chart-5/15",
+        value: "text-foreground",
         footer: "text-chart-5",
     },
 };
@@ -58,21 +53,15 @@ export function DashboardStatCard({
     const styles = ACCENT_STYLES[accent];
 
     return (
-        <DashboardCard hover className="relative overflow-hidden">
-            <div
-                className={cn(
-                    "absolute -top-12 -right-12 size-36 rounded-full blur-2xl",
-                    styles.orb
-                )}
-            />
-            <div className="relative flex items-start justify-between gap-4">
+        <DashboardCard>
+            <div className="flex items-start justify-between gap-4">
                 <div>
                     <p className="text-xs font-semibold tracking-wider text-muted-foreground uppercase">
                         {label}
                     </p>
                     <p
                         className={cn(
-                            "mt-3 text-4xl font-bold tracking-tight",
+                            "mt-3 text-3xl font-bold tracking-tight",
                             styles.value
                         )}
                     >
@@ -84,16 +73,16 @@ export function DashboardStatCard({
                 </div>
                 <span
                     className={cn(
-                        "flex size-12 shrink-0 items-center justify-center rounded-2xl ring-1 ring-inset",
+                        "flex size-10 shrink-0 items-center justify-center rounded-xl ring-1 ring-inset",
                         styles.icon
                     )}
                 >
-                    <Icon className="size-5" />
+                    <Icon className="size-4.5" />
                 </span>
             </div>
             <div
                 className={cn(
-                    "relative mt-5 flex items-center gap-1.5 text-xs font-semibold",
+                    "mt-5 flex items-center gap-1.5 border-t border-border pt-3 text-xs font-medium",
                     styles.footer
                 )}
             >

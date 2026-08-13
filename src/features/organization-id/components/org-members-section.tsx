@@ -33,7 +33,7 @@ export function MembersSection({ members, orgId }: MembersSectionProps) {
         <>
             <DashboardCard className="overflow-hidden p-0">
                 {/* Card header */}
-                <div className="flex items-center justify-between gap-4 border-b border-primary/10 bg-linear-to-r from-primary/6 to-transparent px-5 py-4 sm:px-6">
+                <div className="flex items-center justify-between gap-4 border-b border-border px-5 py-4 sm:px-6">
                     <div>
                         <h2 className="text-base font-bold tracking-tight text-foreground">
                             Members

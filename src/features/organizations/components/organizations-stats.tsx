@@ -123,7 +123,7 @@ export function OrganizationsTableCard({
 
     return (
         <DashboardCard className="overflow-hidden p-0">
-            <div className="space-y-4 border-b border-primary/10 bg-linear-to-r from-primary/6 to-transparent px-5 py-4 sm:px-6">
+            <div className="space-y-4 border-b border-border px-5 py-4 sm:px-6">
                 <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
                     <div className="min-w-0">
                         <h2 className="text-lg font-bold tracking-tight text-foreground">
@@ -151,7 +151,6 @@ export function OrganizationsTableCard({
                                 size="sm"
                                 disabled={isRefreshing}
                                 onClick={onRefresh}
-                                className="border-primary/20 bg-background/80 hover:border-primary/35 hover:bg-primary/5"
                             >
                                 {isRefreshing ? (
                                     <Spinner className="size-4" />

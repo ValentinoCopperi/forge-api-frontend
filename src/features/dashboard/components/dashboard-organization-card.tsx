@@ -26,7 +26,7 @@ export function DashboardOrganizationCard({
 
     return (
         <DashboardCard hover className="overflow-hidden p-0">
-            <div className="relative h-28 bg-linear-to-br from-primary/30 via-chart-2/15 to-chart-3/10">
+            <div className="relative h-20 bg-muted">
                 {organization.bannerUrl ? (
                     <img
                         src={organization.bannerUrl}
@@ -34,16 +34,15 @@ export function DashboardOrganizationCard({
                         className="absolute inset-0 size-full object-cover"
                     />
                 ) : null}
-                <div className="absolute inset-0 bg-linear-to-t from-card/95 to-transparent" />
             </div>
 
-            <div className="-mt-10 space-y-5 p-5 pt-0">
+            <div className="-mt-8 space-y-5 p-5 pt-0">
                 <div className="relative flex items-end justify-between gap-4">
-                    <Avatar className="size-20 border-4 border-card shadow-sm">
+                    <Avatar className="size-16 border-4 border-card shadow-sm">
                         {logoSrc ? (
                             <AvatarImage src={logoSrc} alt={organization.name} />
                         ) : null}
-                        <AvatarFallback className="bg-linear-to-br from-primary to-chart-2 text-lg font-bold text-primary-foreground">
+                        <AvatarFallback className="bg-primary/12 text-lg font-bold text-primary">
                             {getInitials(organization.name)}
                         </AvatarFallback>
                     </Avatar>
@@ -88,7 +87,7 @@ export function DashboardOrganizationCard({
                     />
                 </div>
 
-                <div className="space-y-3 rounded-2xl border border-primary/10 bg-primary/5 p-3">
+                <div className="space-y-3 rounded-xl border border-border bg-muted/30 p-3">
                     <div className="flex items-center justify-between gap-3">
                         <p className="text-xs font-semibold tracking-wide text-muted-foreground uppercase">
                             Recent projects
@@ -186,8 +185,8 @@ function Metric({
     compact?: boolean;
 }) {
     return (
-        <div className="rounded-2xl border border-border/70 bg-background/80 p-3 backdrop-blur-sm">
-            <Icon className="mb-2 size-4 text-primary" />
+        <div className="rounded-xl border border-border bg-background p-3">
+            <Icon className="mb-2 size-4 text-muted-foreground" />
             <p
                 className={cn(
                     "font-semibold text-foreground",

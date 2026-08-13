@@ -128,7 +128,7 @@ export function MembersTable({ members, onUpdateRole, onRemove }: MembersTablePr
         <div className="overflow-x-auto">
             <table className="w-full min-w-[720px] border-collapse text-left">
                 <thead>
-                    <tr className="border-b border-primary/10 dashboard-table-head">
+                    <tr className="border-b border-border dashboard-table-head">
                         <th className="px-5 py-3.5 text-[11px] font-bold tracking-wider uppercase">
                             Member
                         </th>

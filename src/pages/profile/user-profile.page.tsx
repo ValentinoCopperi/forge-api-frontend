@@ -1,5 +1,5 @@
 import { useParams } from "react-router-dom";
-import { Calendar, Mail, RefreshCw, User } from "lucide-react";
+import { Calendar, Mail, RefreshCw } from "lucide-react";
 import { DashboardCard, DashboardShell } from "@/features/dashboard";
 import { Avatar, AvatarFallback, AvatarImage } from "@/shared/ui/avatar";
 import { Button } from "@/shared/ui/button";
@@ -65,10 +65,6 @@ export default function UserProfilePage() {
 
                     <div className="min-w-0">
                         <div className="flex flex-wrap items-center gap-2">
-                            <span className="inline-flex items-center gap-1.5 rounded-full border border-primary/30 bg-primary/12 px-2.5 py-0.5 text-[10px] font-bold tracking-widest text-primary uppercase">
-                                <User className="size-3" />
-                                Profile
-                            </span>
                             {user.roles.map((role) => (
                                 <GlobalRoleBadge key={role} role={role} />
                             ))}

@@ -84,7 +84,7 @@ export function OrganizationsTable({
                 <div className="overflow-x-auto">
                     <table className="w-full min-w-[960px] border-collapse text-left">
                         <thead>
-                            <tr className="border-b border-primary/10 dashboard-table-head">
+                            <tr className="border-b border-border dashboard-table-head">
                                 <TableHead>Organization</TableHead>
                                 {showMembershipRole ? (
                                     <TableHead>Your role</TableHead>

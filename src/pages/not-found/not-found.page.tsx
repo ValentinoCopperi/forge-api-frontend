@@ -8,22 +8,8 @@ export default function NotFoundPage() {
     const location = useLocation();
 
     return (
-        <div className="relative flex min-h-svh items-center justify-center overflow-hidden bg-background px-6 py-12">
-            {/* Fondo decorativo */}
-            <div
-                className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(6,182,212,0.12),transparent_55%)]"
-                aria-hidden
-            />
-            <div
-                className="pointer-events-none absolute -top-24 right-0 size-72 rounded-full bg-primary/5 blur-3xl"
-                aria-hidden
-            />
-            <div
-                className="pointer-events-none absolute -bottom-24 left-0 size-72 rounded-full bg-primary/5 blur-3xl"
-                aria-hidden
-            />
-
-            <div className="relative w-full max-w-lg text-center">
+        <div className="flex min-h-svh items-center justify-center bg-background px-6 py-12">
+            <div className="w-full max-w-lg text-center">
                 {/* Marca */}
                 <div className="mx-auto mb-8 flex size-12 items-center justify-center rounded-xl bg-primary text-primary-foreground shadow-sm">
                     <Zap className="size-5" />

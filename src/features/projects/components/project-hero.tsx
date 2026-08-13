@@ -41,7 +41,7 @@ export function ProjectHero({
             <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
                 <div className="min-w-0">
                     <div className="flex flex-wrap items-center gap-2">
-                        <span className="inline-flex items-center gap-1.5 rounded-full border border-primary/30 bg-primary/12 px-2.5 py-0.5 text-[10px] font-bold tracking-widest text-primary uppercase">
+                        <span className="eyebrow">
                             <FolderKanban className="size-3" />
                             {project.Organization.name}
                         </span>
@@ -85,7 +85,7 @@ export function ProjectHero({
             <div className="mt-5 flex flex-wrap items-center gap-3">
                 <Link
                     to={pathBuilder.userProfile(manager.id)}
-                    className="flex items-center gap-2.5 rounded-xl border border-border bg-muted/30 px-3 py-2 text-xs transition-colors hover:bg-muted/60"
+                    className="flex items-center gap-2.5 rounded-lg border border-border bg-muted/30 px-3 py-2 text-xs transition-colors hover:bg-muted/60"
                 >
                     <Avatar className="size-6 border border-border">
                         {managerAvatarSrc ? (
@@ -103,7 +103,7 @@ export function ProjectHero({
                     </span>
                 </Link>
 
-                <span className="flex items-center gap-1.5 rounded-xl border border-border bg-muted/30 px-3 py-2 text-xs text-muted-foreground">
+                <span className="flex items-center gap-1.5 rounded-lg border border-border bg-muted/30 px-3 py-2 text-xs text-muted-foreground">
                     <Calendar className="size-3.5 shrink-0" />
                     <span>
                         Created{" "}
@@ -113,11 +113,11 @@ export function ProjectHero({
                     </span>
                 </span>
 
-                <span className="flex items-center gap-1.5 rounded-xl border border-primary/30 bg-primary/8 px-3 py-2 text-xs text-primary">
-                    <span className="font-bold">{project._count.Task}</span>
-                    <span className="text-primary/70">
-                        {project._count.Task === 1 ? "task" : "tasks"}
+                <span className="flex items-center gap-1.5 rounded-lg border border-border bg-muted/30 px-3 py-2 text-xs text-muted-foreground">
+                    <span className="font-semibold text-foreground">
+                        {project._count.Task}
                     </span>
+                    {project._count.Task === 1 ? "task" : "tasks"}
                 </span>
             </div>
         </header>

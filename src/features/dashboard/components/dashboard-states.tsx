@@ -44,8 +44,8 @@ export function DashboardEmptyState() {
                 description="When the backend returns organizations for your user, this panel will show an executive summary, members, projects, roles, and recent activity."
             />
             <DashboardCard className="flex min-h-[40vh] flex-col items-center justify-center text-center">
-                <span className="flex size-20 items-center justify-center rounded-3xl bg-linear-to-br from-primary/20 to-chart-2/15 ring-1 ring-primary/20 text-primary">
-                    <Building2 className="size-9" />
+                <span className="flex size-16 items-center justify-center rounded-2xl bg-primary/10 ring-1 ring-primary/15 text-primary">
+                    <Building2 className="size-7" />
                 </span>
                 <h2 className="mt-6 text-2xl font-bold tracking-tight text-foreground">
                     No organizations yet

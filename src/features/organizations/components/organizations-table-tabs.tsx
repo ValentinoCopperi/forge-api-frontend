@@ -34,7 +34,7 @@ export function OrganizationsTableTabs({
     return (
         <div
             className={cn(
-                "inline-flex rounded-xl border border-primary/15 bg-muted/40 p-1",
+                "inline-flex rounded-xl border border-border bg-muted/40 p-1",
                 className
             )}
             role="tablist"
@@ -52,9 +52,9 @@ export function OrganizationsTableTabs({
                         aria-selected={isActive}
                         onClick={() => onChange(tab.id)}
                         className={cn(
-                            "inline-flex items-center gap-2 rounded-lg px-3.5 py-2 text-sm font-semibold transition-all",
+                            "inline-flex items-center gap-2 rounded-lg px-3.5 py-2 text-sm font-semibold transition-colors",
                             isActive
-                                ? "bg-card text-primary shadow-sm shadow-primary/10 ring-1 ring-primary/15"
+                                ? "bg-card text-foreground shadow-sm"
                                 : "text-muted-foreground hover:bg-card/60 hover:text-foreground"
                         )}
                     >

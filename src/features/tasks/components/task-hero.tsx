@@ -99,7 +99,7 @@ export function TaskHero({
                 {assignee ? (
                     <Link
                         to={pathBuilder.userProfile(assignee.id)}
-                        className="flex items-center gap-2.5 rounded-xl border border-border bg-muted/30 px-3 py-2 text-xs transition-colors hover:bg-muted/60"
+                        className="flex items-center gap-2.5 rounded-lg border border-border bg-muted/30 px-3 py-2 text-xs transition-colors hover:bg-muted/60"
                     >
                         <Avatar className="size-6 border border-border">
                             {assigneeAvatarSrc ? (
@@ -122,13 +122,13 @@ export function TaskHero({
                         </span>
                     </Link>
                 ) : (
-                    <span className="flex items-center gap-1.5 rounded-xl border border-border bg-muted/30 px-3 py-2 text-xs italic text-muted-foreground/60">
+                    <span className="flex items-center gap-1.5 rounded-lg border border-border bg-muted/30 px-3 py-2 text-xs italic text-muted-foreground/60">
                         <ListTodo className="size-3.5" />
                         Unassigned
                     </span>
                 )}
 
-                <span className="flex items-center gap-1.5 rounded-xl border border-border bg-muted/30 px-3 py-2 text-xs text-muted-foreground">
+                <span className="flex items-center gap-1.5 rounded-lg border border-border bg-muted/30 px-3 py-2 text-xs text-muted-foreground">
                     <Calendar className="size-3.5 shrink-0" />
                     <span>
                         Deadline{" "}

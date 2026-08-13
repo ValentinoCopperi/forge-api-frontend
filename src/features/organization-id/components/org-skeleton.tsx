@@ -8,7 +8,7 @@ function MembersTableSkeleton() {
         <div className="overflow-x-auto">
             <table className="w-full min-w-[720px] border-collapse">
                 <thead>
-                    <tr className="border-b border-primary/10 dashboard-table-head">
+                    <tr className="border-b border-border dashboard-table-head">
                         {["Member", "Role", "User ID", "Membership ID", ""].map(
                             (h) => (
                                 <th key={h} className="px-5 py-3">

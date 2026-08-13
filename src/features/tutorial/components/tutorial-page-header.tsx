@@ -6,30 +6,27 @@ export function TutorialPageHeader() {
     const user = useAuthStore((state) => state.user);
 
     return (
-        <header className="relative overflow-hidden rounded-[2rem] border border-border bg-card p-6 shadow-sm sm:p-8">
-            <div className="absolute inset-y-0 right-0 w-1/2 bg-linear-to-l from-primary/15 to-transparent" />
-            <div className="absolute -top-24 -right-24 size-64 rounded-full bg-primary/10 blur-3xl" />
-
-            <div className="relative flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
+        <header className="dashboard-hero-surface p-6 sm:p-8">
+            <div className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
                 <div className="max-w-3xl">
-                    <div className="inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/10 px-3 py-1 text-xs font-medium text-primary">
+                    <div className="eyebrow">
                         <Sparkles className="size-3.5" />
                         Interactive API guide
                     </div>
-                    <h1 className="mt-5 text-3xl font-semibold tracking-tight text-foreground sm:text-4xl">
+                    <h1 className="mt-3 text-2xl font-bold tracking-tight text-foreground sm:text-3xl">
                         Learn Forge by trying the API
                     </h1>
-                    <p className="mt-4 max-w-2xl text-sm leading-6 text-muted-foreground sm:text-base">
+                    <p className="mt-3 max-w-2xl text-sm leading-7 text-muted-foreground">
                         Explore how authentication, organizations, and avatars work.
                         Each section explains the endpoints and lets you send real
                         requests against the backend.
                     </p>
                 </div>
 
-                <div className="rounded-3xl border border-border bg-background/70 p-5 backdrop-blur">
+                <div className="rounded-xl border border-border bg-muted/30 p-4">
                     <div className="flex items-center gap-3">
-                        <span className="flex size-11 items-center justify-center rounded-2xl bg-primary/10 text-primary">
-                            <BookOpen className="size-5" />
+                        <span className="flex size-10 items-center justify-center rounded-lg bg-primary/10 text-primary">
+                            <BookOpen className="size-4.5" />
                         </span>
                         <div>
                             <p className="text-xs font-semibold tracking-wide text-muted-foreground uppercase">

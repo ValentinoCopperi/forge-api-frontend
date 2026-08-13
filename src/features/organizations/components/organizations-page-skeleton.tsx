@@ -76,7 +76,7 @@ export function OrganizationsPageSkeleton() {
             </section>
 
             <DashboardCard className="overflow-hidden p-0">
-                <div className="flex items-center justify-between gap-4 border-b border-primary/10 bg-linear-to-r from-primary/6 to-transparent px-5 py-4 sm:px-6">
+                <div className="flex items-center justify-between gap-4 border-b border-border px-5 py-4 sm:px-6">
                     <div className="space-y-2">
                         <Skeleton className="h-5 w-40" />
                         <Skeleton className="h-4 w-56" />
@@ -90,7 +90,7 @@ export function OrganizationsPageSkeleton() {
                     <div className="overflow-x-auto">
                         <table className="w-full min-w-[960px] border-collapse">
                             <thead>
-                                <tr className="border-b border-primary/10 dashboard-table-head">
+                                <tr className="border-b border-border dashboard-table-head">
                                     {Array.from({ length: 8 }).map((_, index) => (
                                         <th key={index} className="px-5 py-3">
                                             <Skeleton className="h-3 w-16" />
