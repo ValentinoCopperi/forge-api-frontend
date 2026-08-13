@@ -8,7 +8,7 @@ export async function uploadUserAvatar(file: File) {
     formData.append("file", file);
 
     const response = await axiosInstance.post(
-        `${API_BASE_URL}${API_PREFIX}/users/upload-avatar`,
+        `${API_BASE_URL}${API_PREFIX}/users/upload`,
         formData,
         {
             headers: {

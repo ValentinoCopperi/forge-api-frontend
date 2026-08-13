@@ -103,7 +103,7 @@ export function TutorialAvatarSection() {
 
             <TutorialEndpointCard
                 method="POST"
-                path={`${API_PREFIX}/users/upload-avatar`}
+                path={`${API_PREFIX}/users/upload`}
                 title="Upload avatar"
                 description="Sends multipart/form-data with a single file field. The previous avatar is replaced in MinIO when one already exists."
                 badge="Live upload"

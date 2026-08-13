@@ -79,6 +79,14 @@ const pageHeaders = {
         title: "Organizations",
         subtitle: "Browse and manage the workspaces linked to your account.",
     },
+    rolesManagement: {
+        title: "Roles & Management",
+        subtitle: "Every registered user and their global role.",
+    },
+    settings: {
+        title: "Settings",
+        subtitle: "Manage your profile and see the organizations you belong to.",
+    },
     profile: ({ userId }) => ({
         title: "Profile",
         subtitle: `Review user ${userId ?? ""} details and organization roles.`,
@@ -128,10 +136,12 @@ export const routes = createBrowserRouter([
             {
                 path: pathSegments.roles_management,
                 element: withSuspense(RolesManagementPage),
+                handle: { pageHeader: pageHeaders.rolesManagement },
             },
             {
                 path: pathSegments.settings,
                 element: withSuspense(SettingsPage),
+                handle: { pageHeader: pageHeaders.settings },
             },
             {
                 path: pathSegments.tutorial,
