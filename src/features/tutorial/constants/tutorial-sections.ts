@@ -1,5 +1,6 @@
 import {
     Building2,
+    FolderKanban,
     ImageUp,
     KeyRound,
     ListTodo,
@@ -10,7 +11,8 @@ export type TutorialSectionId =
     | "auth"
     | "organizations"
     | "avatar"
-    | "roadmap";
+    | "projects"
+    | "tasks";
 
 export type TutorialSection = {
     id: TutorialSectionId;
@@ -39,9 +41,15 @@ export const TUTORIAL_SECTIONS: TutorialSection[] = [
         icon: ImageUp,
     },
     {
-        id: "roadmap",
-        label: "Coming soon",
-        description: "Projects and tasks on the roadmap.",
+        id: "projects",
+        label: "Projects",
+        description: "Create and manage projects inside an organization.",
+        icon: FolderKanban,
+    },
+    {
+        id: "tasks",
+        label: "Tasks",
+        description: "Manage tasks, assignments, and comments.",
         icon: ListTodo,
     },
 ];

@@ -3,8 +3,9 @@ export {
     TutorialAuthSection,
     TutorialEndpointCard,
     TutorialOrganizationsSection,
+    TutorialProjectsSection,
+    TutorialTasksSection,
     TutorialPageHeader,
-    TutorialRoadmapSection,
     TutorialSectionNav,
 } from "./components";
 export {

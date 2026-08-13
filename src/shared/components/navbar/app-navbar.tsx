@@ -2,6 +2,7 @@ import { useLocation, useMatches, useNavigate } from "react-router-dom";
 import { useAuthStore } from "@/features/auth/stores/auth.store";
 import { SidebarUserProfile } from "@/shared/components/sidebar/sidebar-user-profile";
 import {
+    pathBuilder,
     paths,
     resolveBreadcrumbs,
     resolvePageHeader,
@@ -98,7 +99,13 @@ export function AppNavbar() {
                                 <Search />
                                 Find dashboard insights
                             </DropdownMenuItem>
-                            <DropdownMenuItem onSelect={() => navigate(paths.profile)}>
+                            <DropdownMenuItem
+                                disabled={!user}
+                                onSelect={() =>
+                                    user &&
+                                    navigate(pathBuilder.userProfile(user.id))
+                                }
+                            >
                                 <User />
                                 Search my profile
                             </DropdownMenuItem>
@@ -126,7 +133,13 @@ export function AppNavbar() {
                                 <Settings />
                                 Team settings
                             </DropdownMenuItem>
-                            <DropdownMenuItem onSelect={() => navigate(paths.profile)}>
+                            <DropdownMenuItem
+                                disabled={!user}
+                                onSelect={() =>
+                                    user &&
+                                    navigate(pathBuilder.userProfile(user.id))
+                                }
+                            >
                                 <User />
                                 My profile
                             </DropdownMenuItem>

@@ -5,8 +5,9 @@ import {
     TutorialAvatarSection,
     TutorialOrganizationsSection,
     TutorialPageHeader,
-    TutorialRoadmapSection,
+    TutorialProjectsSection,
     TutorialSectionNav,
+    TutorialTasksSection,
     type TutorialSectionId,
 } from "@/features/tutorial";
 
@@ -14,7 +15,8 @@ const SECTION_CONTENT: Record<TutorialSectionId, ComponentType> = {
     auth: TutorialAuthSection,
     organizations: TutorialOrganizationsSection,
     avatar: TutorialAvatarSection,
-    roadmap: TutorialRoadmapSection,
+    projects: TutorialProjectsSection,
+    tasks: TutorialTasksSection,
 };
 
 export default function TutorialPage() {

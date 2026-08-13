@@ -21,17 +21,19 @@ const STATIC_SEGMENT_LABELS: Record<string, string> = {
     roles: "Roles",
     projects: "Projects",
     tasks: "Tasks",
+    profile: "Profile",
 };
 
 function formatDynamicLabel(
     title: string,
     params: Readonly<Record<string, string | undefined>>
 ) {
-    const { orgId, projectId, taskId } = params;
+    const { orgId, projectId, taskId, userId } = params;
 
     if (title === "Task" && taskId) return `Task #${taskId}`;
     if (title === "Project" && projectId) return `Project #${projectId}`;
     if (title === "Organization" && orgId) return `Organization #${orgId}`;
+    if (title === "Profile" && userId) return `Profile #${userId}`;
 
     return title;
 }

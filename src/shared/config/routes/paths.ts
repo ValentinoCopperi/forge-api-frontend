@@ -3,7 +3,7 @@ export const paths = {
     login: "/login",
     register: "/register",
     dashboard: "/dashboard",
-    profile: "/profile",
+    profile: "/dashboard/profile",
     settings: "/settings",
 
 } as const;
@@ -65,7 +65,12 @@ export const pathSegments = {
 
     /** Ruta para el tutorial */
     tutorial: "tutorial",
-    
+
+    /** Ruta para el perfil de un usuario */
+    profile: "profile",
+    userId: ":userId",
+    userProfile: "profile/:userId",
+
 } as const;
 
 

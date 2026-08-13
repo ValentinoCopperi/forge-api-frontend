@@ -1,6 +1,6 @@
 import { useAuthLogoutApi } from "@/features/auth/api/auth.api";
 import type { UserResponseDto as User } from "@/shared/api/generated";
-import { paths } from "@/shared/config/routes";
+import { pathBuilder, paths } from "@/shared/config/routes";
 import { Avatar, AvatarFallback, AvatarImage } from "@/shared/ui/avatar";
 import {
     DropdownMenu,
@@ -90,7 +90,9 @@ export function SidebarUserProfile({
                 align={isNavbar ? "end" : "start"}
                 className="w-52"
             >
-                <DropdownMenuItem onSelect={() => navigate(paths.profile)}>
+                <DropdownMenuItem
+                    onSelect={() => navigate(pathBuilder.userProfile(user.id))}
+                >
                     <UserIcon />
                     Profile
                 </DropdownMenuItem>

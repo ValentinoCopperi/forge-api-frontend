@@ -5,6 +5,7 @@ import type {
 import { UserResponseDtoRoles as UserRoles } from "@/shared/api/generated";
 import { MEMBER_ROLE_LABELS } from "@/features/dashboard/utils/dashboard.utils";
 import { formatDashboardDate } from "@/features/dashboard/utils/dashboard.utils";
+import { GLOBAL_ROLE_LABELS } from "@/shared/utils/role.utils";
 
 export { formatDashboardDate as formatOrganizationDate };
 
@@ -57,5 +58,5 @@ export function canCreateOrganization(
 }
 
 export function formatGlobalRole(role: UserResponseDtoRoles) {
-    return role.charAt(0) + role.slice(1).toLowerCase();
+    return GLOBAL_ROLE_LABELS[role] ?? role;
 }

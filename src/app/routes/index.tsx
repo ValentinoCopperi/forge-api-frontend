@@ -34,6 +34,9 @@ const ProjectPage = lazy(() => import("@/pages/projects/project.page"));
 const TasksPage = lazy(() => import("@/pages/tasks/tasks.page"));
 const TaskPage = lazy(() => import("@/pages/tasks/task.page"));
 
+// Profile page
+const UserProfilePage = lazy(() => import("@/pages/profile/user-profile.page"));
+
 // Not found page
 const NotFoundPage = lazy(() => import("@/pages/not-found/not-found.page"));
 
@@ -76,6 +79,10 @@ const pageHeaders = {
         title: "Organizations",
         subtitle: "Browse and manage the workspaces linked to your account.",
     },
+    profile: ({ userId }) => ({
+        title: "Profile",
+        subtitle: `Review user ${userId ?? ""} details and organization roles.`,
+    }),
     notFound: {
         title: "Page not found",
         subtitle: "The page you are looking for does not exist.",
@@ -130,6 +137,11 @@ export const routes = createBrowserRouter([
                 path: pathSegments.tutorial,
                 element: withSuspense(TutorialPage),
                 handle: { pageHeader: pageHeaders.tutorial },
+            },
+            {
+                path: pathSegments.userProfile,
+                element: withSuspense(UserProfilePage),
+                handle: { pageHeader: pageHeaders.profile },
             },
             {
                 path: pathSegments.organization,
