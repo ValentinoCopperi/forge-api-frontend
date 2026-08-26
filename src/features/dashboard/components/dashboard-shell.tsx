@@ -10,7 +10,7 @@ export function DashboardShell({ children, className }: DashboardShellProps) {
     return (
         <div
             className={cn(
-                "mx-auto flex w-full  flex-col gap-7",
+                "flex w-full flex-col gap-6",
                 className
             )}
         >

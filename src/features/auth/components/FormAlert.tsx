@@ -11,7 +11,7 @@ export function FormAlert({ message, variant = "error" }: FormAlertProps) {
         <div
             role={variant === "error" ? "alert" : "status"}
             className={cn(
-                "flex items-start gap-2 rounded-xl border px-3 py-2.5 text-sm",
+                "flex items-start gap-2 rounded-md border px-3 py-2.5 text-sm",
                 variant === "error"
                     ? "border-destructive/30 bg-destructive/5 text-destructive"
                     : "border-border bg-muted/50 text-muted-foreground"

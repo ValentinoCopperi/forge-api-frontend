@@ -52,12 +52,12 @@ export function SidebarUserProfile({
                     className={cn(
                         "group flex items-center border border-border bg-card text-left transition-colors hover:bg-muted/50 data-[state=open]:bg-muted/50",
                         isNavbar
-                            ? "h-12 w-[250px] shrink-0 gap-3 rounded-2xl px-3 shadow-sm"
-                            : "w-full gap-3 rounded-xl px-3 py-2.5"
+                            ? "h-9 w-auto shrink-0 gap-2 rounded-md px-1.5 shadow-none sm:w-[190px] sm:px-2"
+                            : "w-full gap-3 rounded-lg px-3 py-2.5"
                     )}
                     aria-label={`User profile: ${user.name}`}
                 >
-                    <Avatar className={cn("shrink-0", isNavbar ? "size-10" : "size-9")}>
+                    <Avatar className={cn("shrink-0", isNavbar ? "size-7" : "size-9")}>
                         {avatarSrc ? (
                             <AvatarImage src={avatarSrc} alt={user.name} />
                         ) : null}
@@ -66,7 +66,7 @@ export function SidebarUserProfile({
                         </AvatarFallback>
                     </Avatar>
 
-                    <span className="min-w-0 flex-1">
+                    <span className={cn("min-w-0 flex-1", isNavbar && "hidden sm:block")}>
                         <span className="block truncate text-sm font-semibold text-foreground">
                             {user.name}
                         </span>
@@ -76,8 +76,8 @@ export function SidebarUserProfile({
                     </span>
 
                     {isNavbar ? (
-                        <span className="flex size-7 shrink-0 items-center justify-center rounded-full text-muted-foreground transition-colors group-hover:bg-muted">
-                            <ChevronDown className="size-4" />
+                        <span className="hidden size-6 shrink-0 items-center justify-center rounded text-muted-foreground transition-colors group-hover:bg-muted sm:flex">
+                            <ChevronDown className="size-3.5" />
                         </span>
                     ) : (
                         <ChevronRight className="size-4 shrink-0 text-muted-foreground" />

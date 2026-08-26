@@ -1,5 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { customInstance } from "@/shared/api/axios/axios.mutator";
+import { API_PREFIX } from "@/shared/config/envs/env";
 import type {
     CreateTaskPayload,
     TaskComment,
@@ -18,7 +19,7 @@ export function listTasks(
     signal?: AbortSignal
 ) {
     return customInstance<ArrayResponse<TaskListItem>>({
-        url: "/tasks",
+        url: `${API_PREFIX}/tasks`,
         method: "GET",
         params: { projectId, ...filters },
         signal,
@@ -27,7 +28,7 @@ export function listTasks(
 
 export function getTask(id: number, signal?: AbortSignal) {
     return customInstance<ObjectResponse<TaskDetail>>({
-        url: `/tasks/${id}`,
+        url: `${API_PREFIX}/tasks/${id}`,
         method: "GET",
         signal,
     });
@@ -35,7 +36,7 @@ export function getTask(id: number, signal?: AbortSignal) {
 
 export function createTask(data: CreateTaskPayload) {
     return customInstance<ObjectResponse<TaskDetail>>({
-        url: "/tasks",
+        url: `${API_PREFIX}/tasks`,
         method: "POST",
         data,
     });
@@ -43,7 +44,7 @@ export function createTask(data: CreateTaskPayload) {
 
 export function updateTask(id: number, data: UpdateTaskPayload) {
     return customInstance<ObjectResponse<TaskDetail>>({
-        url: `/tasks/${id}`,
+        url: `${API_PREFIX}/tasks/${id}`,
         method: "PATCH",
         data,
     });
@@ -51,14 +52,14 @@ export function updateTask(id: number, data: UpdateTaskPayload) {
 
 export function deleteTask(id: number) {
     return customInstance<void>({
-        url: `/tasks/${id}`,
+        url: `${API_PREFIX}/tasks/${id}`,
         method: "DELETE",
     });
 }
 
 export function listTaskComments(taskId: number, signal?: AbortSignal) {
     return customInstance<ArrayResponse<TaskComment>>({
-        url: `/tasks/${taskId}/comments`,
+        url: `${API_PREFIX}/tasks/${taskId}/comments`,
         method: "GET",
         signal,
     });
@@ -66,7 +67,7 @@ export function listTaskComments(taskId: number, signal?: AbortSignal) {
 
 export function createTaskComment(taskId: number, content: string) {
     return customInstance<ObjectResponse<TaskComment>>({
-        url: `/tasks/${taskId}/comments`,
+        url: `${API_PREFIX}/tasks/${taskId}/comments`,
         method: "POST",
         data: { content },
     });
@@ -74,7 +75,7 @@ export function createTaskComment(taskId: number, content: string) {
 
 export function deleteTaskComment(taskId: number, commentId: number) {
     return customInstance<void>({
-        url: `/tasks/${taskId}/comments/${commentId}`,
+        url: `${API_PREFIX}/tasks/${taskId}/comments/${commentId}`,
         method: "DELETE",
     });
 }

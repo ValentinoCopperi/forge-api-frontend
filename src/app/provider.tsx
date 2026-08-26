@@ -9,25 +9,25 @@ import { AppLoader } from '@/shared/components/loaders/app-loader'
 import { Toaster } from '@/shared/ui/sonner'
 import { ErrorBoundary } from 'react-error-boundary'
 import { AuthLoader } from './auth-loader'
+import { ThemeProvider } from 'next-themes'
 
 
 export const AppProvider = () => {
     return (
-        <Suspense fallback={<AppLoader />}>
-            <ErrorBoundary FallbackComponent={AppErrorBoundary}>
-                <QueryClientProvider client={queryClient}>
-                    <AuthLoader renderLoading={() => <AppLoader />}>
-                        <RouterProvider router={routes} />
-                    </AuthLoader>
-                    {import.meta.env.DEV && (
-                        <ReactQueryDevtools initialIsOpen={false} />
-                    )}
-
-                    <Toaster />
-
-
-                </QueryClientProvider>
-            </ErrorBoundary>
-        </Suspense>
+        <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+            <Suspense fallback={<AppLoader />}>
+                <ErrorBoundary FallbackComponent={AppErrorBoundary}>
+                    <QueryClientProvider client={queryClient}>
+                        <AuthLoader renderLoading={() => <AppLoader />}>
+                            <RouterProvider router={routes} />
+                        </AuthLoader>
+                        {import.meta.env.DEV && (
+                            <ReactQueryDevtools initialIsOpen={false} />
+                        )}
+                        <Toaster />
+                    </QueryClientProvider>
+                </ErrorBoundary>
+            </Suspense>
+        </ThemeProvider>
     )
 }

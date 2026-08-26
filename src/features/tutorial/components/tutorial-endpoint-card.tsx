@@ -47,7 +47,7 @@ export function TutorialEndpointCard({
     return (
         <article
             className={cn(
-                "rounded-3xl border border-border bg-card p-5 shadow-sm",
+                "rounded-xl bg-card p-5 shadow-sm",
                 className
             )}
         >

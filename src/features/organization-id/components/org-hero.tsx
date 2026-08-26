@@ -5,6 +5,7 @@ import {
     ExternalLink,
     FolderKanban,
     Hash,
+    Pencil,
     RefreshCw,
     ShieldCheck,
     Users,
@@ -24,6 +25,8 @@ type OrgHeroProps = {
     projectsCount: number;
     isRefreshing: boolean;
     onRefresh: () => void;
+    onEdit: () => void;
+    canEdit: boolean;
 };
 
 export function OrgHero({
@@ -32,6 +35,8 @@ export function OrgHero({
     projectsCount,
     isRefreshing,
     onRefresh,
+    onEdit,
+    canEdit,
 }: OrgHeroProps) {
     const creator = org.User_Organization_createdByUserIdToUser;
     const logoSrc = getAvatarSrc(org.logoUrl);
@@ -106,6 +111,12 @@ export function OrgHero({
                     </div>
 
                     <div className="flex flex-wrap gap-2 pb-1">
+                        {canEdit ? (
+                            <Button type="button" variant="outline" size="sm" onClick={onEdit}>
+                                <Pencil className="size-4" />
+                                Edit
+                            </Button>
+                        ) : null}
                         <Button asChild variant="outline" size="sm">
                             <Link to={pathBuilder.orgRoles(org.id)}>
                                 <ShieldCheck className="size-4" />

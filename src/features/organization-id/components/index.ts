@@ -7,3 +7,4 @@ export { RemoveMemberDialog } from "./org-remove-member-dialog";
 export { ProjectsSection } from "./org-projects-section";
 export { OrgPageSkeleton, OrgErrorState } from "./org-skeleton";
 export { OrgRoleSelect } from "./org-role-select";
+export { OrgEditDialog } from "./org-edit-dialog";

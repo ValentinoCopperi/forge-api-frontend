@@ -6,7 +6,7 @@ import { DashboardHero } from "./dashboard-hero";
 export function DashboardLoadingState() {
     return (
         <DashboardCard className="flex min-h-[50vh] w-full flex-col items-center justify-center text-center">
-            <span className="flex size-16 items-center justify-center rounded-3xl bg-primary/12 ring-1 ring-primary/20">
+            <span className="flex size-14 items-center justify-center rounded-xl bg-accent text-accent-foreground">
                 <Spinner className="size-7 text-primary" />
             </span>
             <h1 className="mt-6 text-xl font-bold text-foreground">
@@ -22,7 +22,7 @@ export function DashboardLoadingState() {
 export function DashboardErrorState() {
     return (
         <DashboardCard className="flex min-h-[50vh] w-full flex-col items-center justify-center text-center">
-            <span className="flex size-16 items-center justify-center rounded-3xl bg-destructive/12 ring-1 ring-destructive/20 text-destructive">
+            <span className="flex size-14 items-center justify-center rounded-xl bg-danger-soft text-destructive">
                 <AlertTriangle className="size-7" />
             </span>
             <h1 className="mt-6 text-xl font-bold text-foreground">

@@ -77,69 +77,45 @@ export default function DashboardPage() {
 
     return (
         <DashboardShell>
-            <DashboardHero
-                badge={{ icon: Activity, label: "Executive summary" }}
-                title={
-                    <>
-                        Hello{user?.name ? `, ${user.name}` : ""}.
-                        <span className="block text-primary sm:inline sm:ml-2">
-                            Your workspace overview.
-                        </span>
-                    </>
-                }
-                description="A centralized view of organizations, members, projects, owners, and roles — synced live from the API."
-                meta={
-                    dashboard.isRefreshing ? (
-                        <span className="inline-flex items-center gap-2 rounded-full border border-chart-2/25 bg-chart-2/10 px-3 py-1 text-xs font-semibold text-chart-2">
-                            <Spinner className="size-3.5" />
-                            Refreshing data...
-                        </span>
-                    ) : (
-                        <span className="inline-flex items-center gap-2 rounded-full border border-chart-3/25 bg-chart-3/10 px-3 py-1 text-xs font-semibold text-chart-3">
-                            <span className="size-1.5 rounded-full bg-chart-3" />
-                            All systems synced
-                        </span>
-                    )
-                }
-            />
-
-            <section className="grid gap-5 md:grid-cols-2 xl:grid-cols-4">
-                <DashboardStatCard
-                    accent="primary"
-                    icon={Building2}
-                    label="Organizations"
-                    value={formatCompactNumber(dashboard.totals.organizations)}
-                    helper="Total visible to the user"
+            <div className="overflow-hidden rounded-xl bg-card shadow-sm">
+                <DashboardHero
+                    className="rounded-none shadow-none"
+                    badge={{ icon: Activity, label: "Executive summary" }}
+                    title={
+                        <>
+                            Hello{user?.name ? `, ${user.name}` : ""}.
+                            <span className="block text-primary sm:inline sm:ml-2">
+                                Your workspace overview.
+                            </span>
+                        </>
+                    }
+                    description="A centralized view of organizations, members, projects, owners, and roles — synced from the latest API response."
+                    meta={
+                        dashboard.isRefreshing ? (
+                            <span className="inline-flex items-center gap-2 rounded-full bg-info-soft px-3 py-1 text-xs font-semibold text-info">
+                                <Spinner className="size-3.5" /> Refreshing data...
+                            </span>
+                        ) : (
+                            <span className="inline-flex items-center gap-2 rounded-full bg-success-soft px-3 py-1 text-xs font-semibold text-success">
+                                <span className="size-1.5 rounded-full bg-success" /> Latest response loaded
+                            </span>
+                        )
+                    }
                 />
-                <DashboardStatCard
-                    accent="blue"
-                    icon={UsersRound}
-                    label="Members"
-                    value={formatCompactNumber(dashboard.totals.members)}
-                    helper="Accumulated memberships"
-                />
-                <DashboardStatCard
-                    accent="emerald"
-                    icon={FolderKanban}
-                    label="Projects"
-                    value={formatCompactNumber(dashboard.totals.projects)}
-                    helper="Projects reported by organization"
-                />
-                <DashboardStatCard
-                    accent="amber"
-                    icon={Activity}
-                    label="Active"
-                    value={formatCompactNumber(dashboard.totals.activeProjects)}
-                    helper="Projects with ACTIVE status"
-                />
-            </section>
+                <section className="grid border-t border-border md:grid-cols-2 md:divide-x md:divide-y-0 xl:grid-cols-4 [&>*]:border-b [&>*]:border-border md:[&>*]:border-b-0">
+                    <DashboardStatCard accent="primary" icon={Building2} label="Organizations" value={formatCompactNumber(dashboard.totals.organizations)} helper="Total visible to the user" />
+                    <DashboardStatCard accent="blue" icon={UsersRound} label="Members" value={formatCompactNumber(dashboard.totals.members)} helper="Accumulated memberships" />
+                    <DashboardStatCard accent="emerald" icon={FolderKanban} label="Projects" value={formatCompactNumber(dashboard.totals.projects)} helper="Projects reported by organization" />
+                    <DashboardStatCard accent="amber" icon={Activity} label="Active" value={formatCompactNumber(dashboard.totals.activeProjects)} helper="Projects with ACTIVE status" />
+                </section>
+            </div>
 
             <section className="space-y-5">
                 <DashboardSectionHeader
                     title="All organizations"
                     description="Complete catalog with counts, owners, recent projects, and visible members."
                 />
-                <div className="grid gap-5 xl:grid-cols-2 2xl:grid-cols-3">
+                <div className="overflow-hidden rounded-xl bg-card shadow-sm divide-y divide-border">
                     {visibleOrganizations.map((organization) => (
                         <DashboardOrganizationCard
                             key={organization.id}
@@ -152,7 +128,7 @@ export default function DashboardPage() {
                         <Button
                             type="button"
                             size="lg"
-                            className="shadow-lg shadow-primary/30 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-xl hover:shadow-primary/35"
+                            className="h-10 rounded-md px-4 shadow-sm"
                             onClick={() => setShowAllOrganizations(true)}
                         >
                             View more organizations

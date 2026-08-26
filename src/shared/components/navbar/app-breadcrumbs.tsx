@@ -10,16 +10,16 @@ type AppBreadcrumbsProps = {
 export function AppBreadcrumbs({ items }: AppBreadcrumbsProps) {
     return (
         <nav aria-label="Breadcrumb">
-            <ol className="flex min-w-0 flex-wrap items-center gap-1.5">
+            <ol className="flex min-w-0 items-center gap-1">
                 {items.map((item, index) => {
                     const isFirst = index === 0;
                     const isHomeLink = isFirst && item.href && item.label === "Home";
 
                     return (
-                        <li key={`${item.label}-${index}`} className="flex min-w-0 items-center gap-1.5">
+                        <li key={`${item.label}-${index}`} className="flex min-w-0 items-center gap-1">
                             {index > 0 ? (
                                 <ChevronRight
-                                    className="size-3.5 shrink-0 text-muted-foreground/70"
+                                    className="size-3 shrink-0 text-faint"
                                     aria-hidden
                                 />
                             ) : null}
@@ -28,8 +28,8 @@ export function AppBreadcrumbs({ items }: AppBreadcrumbsProps) {
                                 <Link
                                     to={item.href}
                                     className={cn(
-                                        "inline-flex min-w-0 max-w-48 items-center gap-1.5 truncate rounded-md px-1.5 py-0.5 text-sm font-medium text-muted-foreground transition-colors",
-                                        "hover:bg-muted/60 hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/40",
+                                        "inline-flex min-w-0 max-w-40 items-center gap-1.5 truncate rounded px-1 py-0.5 text-[11px] font-semibold text-muted-foreground transition-colors",
+                                        "hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/40",
                                         isHomeLink && "max-w-none"
                                     )}
                                 >
@@ -38,7 +38,7 @@ export function AppBreadcrumbs({ items }: AppBreadcrumbsProps) {
                                 </Link>
                             ) : (
                                 <span
-                                    className="inline-flex min-w-0 max-w-64 truncate px-1.5 py-0.5 text-sm font-semibold tracking-tight text-foreground"
+                                    className="inline-flex min-w-0 max-w-48 truncate px-1 py-0.5 text-[11px] font-bold text-foreground"
                                     aria-current="page"
                                 >
                                     {item.label}

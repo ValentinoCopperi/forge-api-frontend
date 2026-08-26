@@ -1,5 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { customInstance } from "@/shared/api/axios/axios.mutator";
+import { API_PREFIX } from "@/shared/config/envs/env";
 import type {
     CreateProjectPayload,
     ProjectDetail,
@@ -12,7 +13,7 @@ type ObjectResponse<T> = T & { timestamp: string };
 
 export function listProjects(organizationId: number, signal?: AbortSignal) {
     return customInstance<ArrayResponse<ProjectListItem>>({
-        url: "/projects",
+        url: `${API_PREFIX}/projects`,
         method: "GET",
         params: { organizationId },
         signal,
@@ -21,7 +22,7 @@ export function listProjects(organizationId: number, signal?: AbortSignal) {
 
 export function getProject(id: number, signal?: AbortSignal) {
     return customInstance<ObjectResponse<ProjectDetail>>({
-        url: `/projects/${id}`,
+        url: `${API_PREFIX}/projects/${id}`,
         method: "GET",
         signal,
     });
@@ -29,7 +30,7 @@ export function getProject(id: number, signal?: AbortSignal) {
 
 export function createProject(data: CreateProjectPayload) {
     return customInstance<ObjectResponse<ProjectDetail>>({
-        url: "/projects",
+        url: `${API_PREFIX}/projects`,
         method: "POST",
         data,
     });
@@ -37,7 +38,7 @@ export function createProject(data: CreateProjectPayload) {
 
 export function updateProject(id: number, data: UpdateProjectPayload) {
     return customInstance<ObjectResponse<ProjectDetail>>({
-        url: `/projects/${id}`,
+        url: `${API_PREFIX}/projects/${id}`,
         method: "PATCH",
         data,
     });
@@ -45,7 +46,7 @@ export function updateProject(id: number, data: UpdateProjectPayload) {
 
 export function deleteProject(id: number) {
     return customInstance<void>({
-        url: `/projects/${id}`,
+        url: `${API_PREFIX}/projects/${id}`,
         method: "DELETE",
     });
 }

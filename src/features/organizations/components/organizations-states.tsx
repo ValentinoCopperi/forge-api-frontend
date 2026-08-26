@@ -16,7 +16,7 @@ export function OrganizationsErrorState({
 }: OrganizationsErrorStateProps) {
     return (
         <DashboardCard className="flex min-h-[50vh] flex-col items-center justify-center text-center">
-            <span className="flex size-16 items-center justify-center rounded-3xl bg-destructive/12 ring-1 ring-destructive/25 text-destructive">
+            <span className="flex size-14 items-center justify-center rounded-xl bg-danger-soft text-destructive">
                 <AlertTriangle className="size-7" />
             </span>
             <h2 className="mt-6 text-xl font-bold text-foreground">
@@ -60,7 +60,7 @@ export function OrganizationsEmptyState({
                 <Button
                     type="button"
                     size="lg"
-                    className="mt-6 shadow-lg shadow-primary/30"
+                    className="mt-6 shadow-sm"
                     onClick={onCreateClick}
                 >
                     <Plus />

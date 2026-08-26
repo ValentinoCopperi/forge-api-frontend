@@ -26,14 +26,14 @@ export function RegisterForm({ googleIcon }: RegisterFormProps) {
     } = useRegisterForm();
 
     return (
-        <div className="w-full max-w-md rounded-2xl border border-white/25 bg-white/90 p-6 shadow-2xl shadow-cyan-950/25 backdrop-blur-xl sm:p-8">
+        <div className="auth-surface w-full max-w-md rounded-xl bg-card p-6 text-card-foreground shadow-md sm:p-8">
             <div className="mb-6 flex items-start gap-3">
-                <span className="flex size-10 shrink-0 items-center justify-center rounded-xl bg-primary/10 text-primary">
+                <span className="flex size-10 shrink-0 items-center justify-center rounded-lg bg-accent text-accent-foreground">
                     <Zap className="size-5" />
                 </span>
                 <div>
-                    <h1 className="text-xl font-semibold tracking-tight text-foreground">
-                        Welcome to Forge!
+                    <h1 className="text-xl font-extrabold tracking-[-0.025em] text-foreground">
+                        Create your Forge account
                     </h1>
                     <p className="mt-1 text-sm text-muted-foreground">
                         Create your account to access your Forge workspace.
@@ -104,7 +104,7 @@ export function RegisterForm({ googleIcon }: RegisterFormProps) {
 
                 <Button
                     type="submit"
-                    className="h-11 w-full rounded-xl bg-[#0f766e] text-base hover:bg-[#0d6b64]"
+                    className="h-11 w-full rounded-md text-sm"
                     disabled={isPending}
                 >
                     {isPending ? (
@@ -134,7 +134,7 @@ export function RegisterForm({ googleIcon }: RegisterFormProps) {
             <Button
                 type="button"
                 variant="outline"
-                className="h-11 w-full rounded-xl bg-white/90"
+                className="h-11 w-full rounded-md bg-card"
                 onClick={showGoogleSignInInfo}
             >
                 {googleIcon}

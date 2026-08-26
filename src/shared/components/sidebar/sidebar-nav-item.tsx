@@ -10,6 +10,8 @@ type SidebarNavItemProps = {
     end?: boolean;
     disabled?: boolean;
     isActive?: (pathname: string) => boolean;
+    collapsed?: boolean;
+    onNavigate?: () => void;
 };
 
 type Icon = LucideIcon;
@@ -19,21 +21,16 @@ function NavItemContent({
     icon: Icon,
     badgeCount,
     isActive,
+    collapsed,
 }: {
     label: string;
     icon: Icon;
     badgeCount?: number;
     isActive: boolean;
+    collapsed?: boolean;
 }) {
     return (
         <>
-            {isActive ? (
-                <span
-                    className="absolute top-1/2 left-0 h-5 w-1 -translate-y-1/2 rounded-r-full bg-primary"
-                    aria-hidden
-                />
-            ) : null}
-
             <Icon
                 className={cn(
                     "size-4 shrink-0",
@@ -41,10 +38,10 @@ function NavItemContent({
                 )}
             />
 
-            <span className="flex-1 truncate">{label}</span>
+            <span className={cn("flex-1 truncate", collapsed && "lg:hidden")}>{label}</span>
 
-            {badgeCount !== undefined ? (
-                <span className="flex size-5 shrink-0 items-center justify-center rounded-full bg-muted text-[11px] font-medium text-muted-foreground">
+            {badgeCount !== undefined && !collapsed ? (
+                <span className="flex min-w-5 shrink-0 items-center justify-center rounded-full bg-muted px-1.5 text-[10px] font-bold text-muted-foreground">
                     {badgeCount}
                 </span>
             ) : null}
@@ -63,6 +60,8 @@ export function SidebarNavItem({
     end,
     disabled,
     isActive: isActiveMatch,
+    collapsed = false,
+    onNavigate,
 }: SidebarNavItemProps) {
     const location = useLocation();
 
@@ -75,13 +74,14 @@ export function SidebarNavItem({
         return (
             <span
                 aria-disabled
-                className="group relative flex cursor-not-allowed items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium text-foreground/40"
+                className={cn("group relative flex cursor-not-allowed items-center gap-3 rounded-md px-2.5 py-2 text-sm font-medium text-foreground/40", collapsed && "lg:justify-center lg:px-0")}
             >
                 <NavItemContent
                     label={label}
                     icon={Icon}
                     badgeCount={badgeCount}
                     isActive={false}
+                    collapsed={collapsed}
                 />
             </span>
         );
@@ -91,14 +91,17 @@ export function SidebarNavItem({
         <NavLink
             to={to}
             end={end}
+            title={collapsed ? label : undefined}
+            onClick={onNavigate}
             className={({ isActive }) => {
                 const active = resolveIsActive(isActive);
 
                 return cn(
-                    "group relative flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition-colors",
+                    "group relative flex min-h-9 items-center gap-3 rounded-md px-2.5 py-2 text-[13px] font-semibold transition-colors",
+                    collapsed && "lg:justify-center lg:px-0",
                     active
-                        ? "bg-primary/10 text-primary"
-                        : "text-foreground/80 hover:bg-muted hover:text-foreground"
+                        ? "bg-sidebar-accent text-sidebar-accent-foreground"
+                        : "text-sidebar-foreground/72 hover:bg-sidebar-accent/65 hover:text-sidebar-foreground"
                 );
             }}
         >
@@ -108,6 +111,7 @@ export function SidebarNavItem({
                     icon={Icon}
                     badgeCount={badgeCount}
                     isActive={resolveIsActive(isActive)}
+                    collapsed={collapsed}
                 />
             )}
         </NavLink>

@@ -1,6 +1,5 @@
 import type { LucideIcon } from "lucide-react";
 import { cn } from "@/shared/utils/utils";
-import { DashboardCard } from "./dashboard-card";
 
 export type StatAccent = "primary" | "blue" | "emerald" | "amber" | "rose";
 
@@ -53,42 +52,42 @@ export function DashboardStatCard({
     const styles = ACCENT_STYLES[accent];
 
     return (
-        <DashboardCard>
-            <div className="flex items-start justify-between gap-4">
-                <div>
-                    <p className="text-xs font-semibold tracking-wider text-muted-foreground uppercase">
-                        {label}
-                    </p>
-                    <p
-                        className={cn(
-                            "mt-3 text-3xl font-bold tracking-tight",
-                            styles.value
-                        )}
-                    >
-                        {value}
-                    </p>
-                    <p className="mt-2 text-sm leading-6 text-muted-foreground">
-                        {helper}
-                    </p>
-                </div>
+        <article className="min-w-0 bg-card">
+            <div className="flex min-h-28 items-stretch">
                 <span
                     className={cn(
-                        "flex size-10 shrink-0 items-center justify-center rounded-xl ring-1 ring-inset",
+                        "flex w-12 shrink-0 items-center justify-center border-r border-border",
                         styles.icon
                     )}
                 >
                     <Icon className="size-4.5" />
                 </span>
+                <div className="min-w-0 flex-1 px-4 py-3.5">
+                    <p className="text-[10px] font-bold tracking-[0.1em] text-muted-foreground uppercase">
+                        {label}
+                    </p>
+                    <p
+                        className={cn(
+                            "mt-1 text-2xl font-extrabold tracking-[-0.03em] tabular-nums",
+                            styles.value
+                        )}
+                    >
+                        {value}
+                    </p>
+                    <p className="mt-1 truncate text-xs text-muted-foreground">
+                        {helper}
+                    </p>
+                </div>
             </div>
             <div
                 className={cn(
-                    "mt-5 flex items-center gap-1.5 border-t border-border pt-3 text-xs font-medium",
+                    "flex items-center gap-1.5 border-t border-border px-4 py-2 text-[10px] font-bold tracking-wide uppercase",
                     styles.footer
                 )}
             >
                 <span className="size-1.5 rounded-full bg-current" />
-                Live from API
+                API live
             </div>
-        </DashboardCard>
+        </article>
     );
 }

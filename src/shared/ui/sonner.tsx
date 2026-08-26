@@ -11,7 +11,7 @@ import { cn } from "@/shared/utils/utils"
 
 const toasterClassNames = {
   toast: cn(
-    "group toast overflow-hidden rounded-3xl border border-border bg-card font-sans text-card-foreground shadow-sm",
+    "group toast overflow-hidden rounded-lg border border-border bg-card font-sans text-card-foreground shadow-md",
     "backdrop-blur supports-backdrop-filter:bg-card/95",
     "[&_[data-description]]:mt-1 [&_[data-description]]:text-sm [&_[data-description]]:font-normal [&_[data-description]]:leading-6 [&_[data-description]]:tracking-normal [&_[data-description]]:text-secondary-foreground [&_[data-description]]:!opacity-100",
   ),

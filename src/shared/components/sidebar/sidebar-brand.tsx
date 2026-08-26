@@ -5,21 +5,23 @@ import { paths } from "@/shared/config/routes";
 /**
  * Cabecera del sidebar con logo y nombre de la marca.
  */
-export function SidebarBrand() {
+export function SidebarBrand({ collapsed = false }: { collapsed?: boolean }) {
     return (
         <Link
             to={paths.home}
-            className="flex items-center gap-2.5 px-1 transition-opacity hover:opacity-90"
+            className="flex min-w-0 items-center gap-2.5 transition-opacity hover:opacity-90"
+            aria-label="Forge home"
         >
-            <span className="flex size-8 shrink-0 items-center justify-center rounded-lg bg-primary text-primary-foreground shadow-sm">
-                <Zap className="size-4" />
+            <span className="relative flex size-9 shrink-0 items-center justify-center rounded-lg bg-primary text-primary-foreground shadow-sm">
+                <Zap className="size-4.5" />
+                <span className="absolute -right-0.5 -bottom-0.5 size-2.5 rounded-full border-2 border-sidebar bg-forge-lime" aria-hidden />
             </span>
-            <span className="min-w-0">
-                <span className="block text-base font-bold tracking-tight text-foreground">
+            <span className={collapsed ? "lg:hidden" : "min-w-0"}>
+                <span className="block text-[15px] font-extrabold tracking-[-0.025em] text-sidebar-foreground">
                     Forge
                 </span>
-                <span className="block text-[11px] font-medium tracking-wide text-muted-foreground uppercase">
-                    Workspace
+                <span className="block text-[9px] font-bold tracking-[0.14em] text-muted-foreground uppercase">
+                    Control room
                 </span>
             </span>
         </Link>

@@ -51,7 +51,7 @@ export function TutorialAvatarSection() {
                 description="Upload a profile image with multipart/form-data. The backend stores it in MinIO and replaces any previous avatar."
             />
 
-            <div className="rounded-3xl border border-border bg-card p-5 shadow-sm">
+            <div className="rounded-xl bg-card p-5 shadow-sm">
                 <div className="flex flex-col gap-5 sm:flex-row sm:items-center">
                     <Avatar className="size-20">
                         {avatarSrc ? (

@@ -26,7 +26,7 @@ export function FieldInput({
                     placeholder={placeholder}
                     aria-invalid={Boolean(error)}
                     className={cn(
-                        "h-11 w-full rounded-xl border bg-white/95 px-3 text-sm text-foreground shadow-sm outline-none transition-colors placeholder:text-muted-foreground focus:border-primary focus:ring-3 focus:ring-primary/15",
+                        "h-11 w-full rounded-md border bg-card px-3 text-sm text-foreground outline-none transition-colors placeholder:text-muted-foreground focus:border-primary focus:ring-3 focus:ring-primary/15",
                         Icon || endAdornment ? "pr-10" : undefined,
                         error ? "border-destructive/60" : "border-border/80",
                         className

@@ -12,7 +12,7 @@ export function FieldSelect({ error, className, children, ...props }: FieldSelec
                 <select
                     aria-invalid={Boolean(error)}
                     className={cn(
-                        "h-11 w-full appearance-none rounded-xl border bg-white/95 px-3 pr-10 text-sm text-foreground shadow-sm outline-none transition-colors focus:border-primary focus:ring-3 focus:ring-primary/15",
+                        "h-11 w-full appearance-none rounded-md border bg-card px-3 pr-10 text-sm text-foreground outline-none transition-colors focus:border-primary focus:ring-3 focus:ring-primary/15",
                         error ? "border-destructive/60" : "border-border/80",
                         className
                     )}

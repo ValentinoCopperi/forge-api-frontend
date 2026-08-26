@@ -56,7 +56,7 @@ export function OrganizationsPageHeader({
                 <Button
                     type="button"
                     size="lg"
-                    className="shadow-lg shadow-primary/30 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-xl hover:shadow-primary/35"
+                    className="h-10 rounded-md px-4 shadow-sm"
                     disabled={!isDirector || isLoading}
                     onClick={onCreateClick}
                 >
